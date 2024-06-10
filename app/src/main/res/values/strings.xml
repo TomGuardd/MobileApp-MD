@@ -7,4 +7,5 @@
     <string name="email">Email</string>
     <string name="password">Password</string>
     <string name="login">Login</string>
+    <string name="splash_message">Simply snap a photo of your plant, and our software will analyze it automatically to identify the exact disease causing damage to it.</string>
 </resources>
