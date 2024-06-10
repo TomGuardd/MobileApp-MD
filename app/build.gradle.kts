@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.tomguard"
+    namespace = "com.capstone.tomguard"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.tomguard"
+        applicationId = "com.capstone.tomguard"
         minSdk = 24
         targetSdk = 34
         versionCode = 1
@@ -52,7 +52,7 @@ dependencies {
     implementation(libs.androidx.datastore.preferences)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.lifecycle.livedata.ktx)
-
+    implementation(libs.activity.ktx)
 
     implementation(libs.retrofit)
     implementation(libs.retrofit2.converter.gson)
