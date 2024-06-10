@@ -1,4 +1,10 @@
 <resources>
     <string name="app_name">TomGuard</string>
     <string name="next">Next</string>
+    <string name="app_icon">Application icon</string>
+    <string name="title_login_page">Are you ready to check your tomato plants?</string>
+    <string name="message_login_page">Please login first to use our app</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
 </resources>
