@@ -8,4 +8,9 @@
     <string name="password">Password</string>
     <string name="login">Login</string>
     <string name="splash_message">Simply snap a photo of your plant, and our software will analyze it automatically to identify the exact disease causing damage to it.</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_camera">Camera</string>
+    <string name="title_profile">Profile</string>
 </resources>
