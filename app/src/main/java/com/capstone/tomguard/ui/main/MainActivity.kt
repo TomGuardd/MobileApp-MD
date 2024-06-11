@@ -8,9 +8,17 @@ import android.view.WindowManager
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.NavigationUI.setupWithNavController
+import androidx.navigation.ui.setupActionBarWithNavController
+import androidx.navigation.ui.setupWithNavController
+import com.capstone.tomguard.R
 import com.capstone.tomguard.databinding.ActivityMainBinding
 import com.capstone.tomguard.ui.ViewModelFactory
 import com.capstone.tomguard.ui.login.LoginActivity
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
 
@@ -26,14 +34,25 @@ class MainActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(binding.root)
 
+        setupBottomNavigation()
+        getSession()
+        setupView()
+    }
+
+    private fun setupBottomNavigation() {
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        val navController = navHostFragment.navController
+        setupWithNavController(binding.navButton, navController)
+    }
+
+    private fun getSession() {
         viewModel.getSession().observe(this) { user ->
             if (!user.isLogin) {
                 startActivity(Intent(this, LoginActivity::class.java))
                 finish()
             }
         }
-
-        setupView()
     }
 
     private fun setupView() {
