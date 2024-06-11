@@ -23,4 +23,6 @@
     <string name="dummy_username">John Doe</string>
     <string name="dummy_email">john.doe@mail.com</string>
     <string name="logout">Logout</string>
+    <string name="edit_email">Edit email</string>
+    <string name="edit_name">Edit name</string>
 </resources>
