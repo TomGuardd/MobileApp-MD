@@ -4,6 +4,7 @@
     <string name="app_icon">Application icon</string>
     <string name="title_login_page">Are you ready to check your tomato plants?</string>
     <string name="message_login_page">Please login first to use our app</string>
+    <string name="name">Name</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
     <string name="login">Login</string>
@@ -18,4 +19,8 @@
     <string name="camera">Camera</string>
     <string name="gallery">Gallery</string>
     <string name="predict">Predict</string>
+    <string name="setting_profile_name">John Doe</string>
+    <string name="dummy_username">John Doe</string>
+    <string name="dummy_email">john.doe@mail.com</string>
+    <string name="logout">Logout</string>
 </resources>
