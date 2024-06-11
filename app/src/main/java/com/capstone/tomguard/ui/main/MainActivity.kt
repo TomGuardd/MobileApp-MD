@@ -26,14 +26,17 @@ class MainActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(binding.root)
 
+        getSession()
+        setupView()
+    }
+
+    private fun getSession() {
         viewModel.getSession().observe(this) { user ->
             if (!user.isLogin) {
                 startActivity(Intent(this, LoginActivity::class.java))
                 finish()
             }
         }
-
-        setupView()
     }
 
     private fun setupView() {
