@@ -12,10 +12,10 @@
         tools:layout="@layout/fragment_dashboard" />
 
     <fragment
-        android:id="@+id/navigation_camera"
-        android:name="com.capstone.tomguard.ui.camera.CameraFragment"
-        android:label="@string/title_camera"
-        tools:layout="@layout/fragment_dashboard" />
+        android:id="@+id/navigation_predict"
+        android:name="com.capstone.tomguard.ui.predict.PredictFragment"
+        android:label="@string/title_predict"
+        tools:layout="@layout/fragment_predict" />
 
     <fragment
         android:id="@+id/navigation_profile"
