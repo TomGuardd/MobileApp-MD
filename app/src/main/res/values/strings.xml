@@ -14,4 +14,8 @@
     <string name="title_camera">Camera</string>
     <string name="title_profile">Profile</string>
     <string name="title_predict">Predict</string>
+    <string name="image_preview">Image preview</string>
+    <string name="camera">Camera</string>
+    <string name="gallery">Gallery</string>
+    <string name="predict">Predict</string>
 </resources>
