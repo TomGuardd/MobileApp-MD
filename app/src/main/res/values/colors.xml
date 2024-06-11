@@ -2,4 +2,9 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="orange_main">#f07b00</color>
+
+    <color name="box_stroke_white">@color/white</color>
+    <color name="hint_text_white">@color/white</color>
+    <color name="helper_text_white">@color/white</color>
 </resources>

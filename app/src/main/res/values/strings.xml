@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">TomGuard</string>
+    <string name="next">Next</string>
+    <string name="app_icon">Application icon</string>
+    <string name="title_login_page">Are you ready to check your tomato plants?</string>
+    <string name="message_login_page">Please login first to use our app</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="splash_message">Simply snap a photo of your plant, and our software will analyze it automatically to identify the exact disease causing damage to it.</string>
 </resources>

@@ -1,4 +1,4 @@
-package com.example.tomguard
+package com.capstone.tomguard
 
 import org.junit.Test
 
