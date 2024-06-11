@@ -1,16 +1,23 @@
 package com.capstone.tomguard.ui.predict
 
+import android.Manifest
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
+import androidx.core.net.toUri
 import com.capstone.tomguard.R
-
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+import com.capstone.tomguard.databinding.ActivityCameraxBinding
+import com.capstone.tomguard.databinding.FragmentPredictBinding
+import com.capstone.tomguard.ui.predict.CameraxActivity.Companion.CAMERAX_RESULT
 
 /**
  * A simple [Fragment] subclass.
@@ -18,43 +25,87 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 class PredictFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+    private lateinit var binding: FragmentPredictBinding
+
+    private var currentImageUri: Uri? = null
+
+    private val requestPermissionLauncher = registerForActivityResult(
+            ActivityResultContracts.RequestPermission()
+        ) { isGranted: Boolean ->
+            if (isGranted) {
+                showToast("Permission request granted")
+            } else {
+                showToast("Permission request denied")
+            }
+        }
+
+    private fun allPermissionsGranted() =
+        ContextCompat.checkSelfPermission(
+            requireActivity(),
+            REQUIRED_PERMISSION
+        ) == PackageManager.PERMISSION_GRANTED
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+    ): View? {
+        // Inflate the layout for this fragment
+        binding = FragmentPredictBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        if (!allPermissionsGranted()) {
+            requestPermissionLauncher.launch(REQUIRED_PERMISSION)
+        }
+
+        //  binding.layoutButton.galleryButton.setOnClickListener { startGallery() }
+        //  binding.layoutButton.cameraButton.setOnClickListener { startCamera() }
+        binding.layoutButton.cameraXButton.setOnClickListener { startCameraX() }
+        //        binding.btnPredict.setOnClickListener {
+        //            currentImageUri?.let {
+        //                analyzeImage(it)
+        //            } ?: run {
+        //                showToast(getString(R.string.empty_image_warning))
+        //            }
+        //        }
+    }
+
+
+    private fun startCameraX() {
+        val intent = Intent(requireActivity(), CameraxActivity::class.java)
+        launcherIntentCameraX.launch(intent)
+    }
+
+    private val launcherIntentCameraX = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) {
+        if (it.resultCode == CAMERAX_RESULT) {
+            currentImageUri = it.data?.getStringExtra(CameraxActivity.EXTRA_CAMERAX_IMAGE)?.toUri()
+            showImage()
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_predict, container, false)
+    private fun showImage() {
+        currentImageUri?.let {
+            Log.d("Image URI", "showImage: $it")
+            binding.ivPreview.setImageURI(it)
+        }
+    }
+
+    //    private fun analyzeImage(uri: Uri) {
+    //        val intent = Intent(this, ResultActivity::class.java)
+    //        intent.putExtra(ResultActivity.EXTRA_IMAGE_URI, currentImageUri.toString())
+    //        startActivity(intent)
+    //    }
+
+    private fun showToast(message: String) {
+        Toast.makeText(requireActivity(), message, Toast.LENGTH_SHORT).show()
     }
 
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment PredictFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            PredictFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+        private const val REQUIRED_PERMISSION = Manifest.permission.CAMERA
     }
 }
