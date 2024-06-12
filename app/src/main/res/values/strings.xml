@@ -29,4 +29,12 @@
     <string name="camerax">CameraX</string>
     <string name="image_classifier_failed">Image classifier failed to initialize. See error logs for details</string>
     <string name="empty_image_warning">Please take or select image first</string>
+    <string name="title_register">Create your account</string>
+    <string name="message_register_page">Please fill in the form below to make it easier for us to get to know you</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="register">Register</string>
+    <string name="password_hint">Password</string>
+    <string name="confirm_password_hint">Confirm Password</string>
+    <string name="email_hint">Email</string>
+    <string name="name_hint">Name</string>
 </resources>

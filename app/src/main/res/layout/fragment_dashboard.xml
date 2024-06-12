@@ -13,6 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="@string/welcome"
+        android:fontFamily="@font/lato_bold"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -20,27 +21,31 @@
 
     <RelativeLayout
         android:id="@+id/card_user"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_width="367dp"
+        android:layout_height="81dp"
+        android:layout_marginTop="12dp"
         android:background="@drawable/bg_dashboard_profile"
         android:paddingHorizontal="16dp"
         android:paddingVertical="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_welcome">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/iv_profile"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
+            android:layout_width="83dp"
+            android:layout_height="69dp"
             android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="31dp"
+            android:layout_marginBottom="0dp"
             android:src="@drawable/ic_account_circle_white_48" />
 
         <TextView
             android:id="@+id/tv_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="6dp"
+            android:layout_marginStart="9dp"
             android:layout_toEndOf="@id/iv_profile"
             android:maxLines="1"
             android:text="@string/dummy_username"
@@ -49,12 +54,15 @@
 
         <TextView
             android:id="@+id/tv_email"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/tv_name"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginEnd="16dp"
+            android:layout_width="171dp"
+            android:layout_height="34dp"
+            android:layout_below="@+id/tv_name"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginEnd="53dp"
+            android:layout_marginBottom="0dp"
             android:layout_toEndOf="@id/iv_profile"
             android:maxLines="1"
             android:text="@string/dummy_email"
