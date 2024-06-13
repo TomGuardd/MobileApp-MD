@@ -54,11 +54,7 @@ private fun getImageUriForPreQ(context: Context): Uri {
     )
 }
 
-// Create custom temporary file
-fun createCustomTempFile(context: Context): File {
-    val filesDir = context.externalCacheDir
-    return File.createTempFile(timeStamp, ".jpg", filesDir)
-}
+// --------------------------------------Unused methods-----------------------------------------
 
 // Convert URI to file
 fun uriToFile(imageUri: Uri, context: Context): File {
@@ -95,6 +91,12 @@ fun File.reduceFileImage(): File {
     } while (streamLength > MAXIMUM_SIZE)
     bitmap?.compress(Bitmap.CompressFormat.JPEG, compressQuality, FileOutputStream(file))
     return file
+}
+
+// Create custom temporary file
+fun createCustomTempFile(context: Context): File {
+    val filesDir = context.externalCacheDir
+    return File.createTempFile(timeStamp, ".jpg", filesDir)
 }
 
 fun Bitmap.getRotatedBitmap(file: File): Bitmap? {

@@ -46,7 +46,8 @@ class ImageClassifierHelper(
 
     private fun setupImageClassifier() {
         // konfigurasi nilai threshold, maksimal hasil, jumlah thread
-        val optionsBuilder = ImageClassifier.ImageClassifierOptions.builder()
+        val optionsBuilder = ImageClassifier
+            .ImageClassifierOptions.builder()
             .setScoreThreshold(threshold)
             .setMaxResults(maxResults)
         val baseOptionBuilder = BaseOptions.builder()
@@ -63,10 +64,6 @@ class ImageClassifierHelper(
             classifierListener?.onError(context.getString(R.string.image_classifier_failed))
             Log.e(TAG, e.message.toString())
         }
-    }
-
-    companion object {
-        private const val TAG = "ImageClassifierHelper"
     }
 
     // Fungsi untuk melakukan pemrosesan klasifikasi
@@ -102,6 +99,26 @@ class ImageClassifierHelper(
         )
     }
 
+    private fun getOrientationFromRotation(rotation: Int): ImageProcessingOptions.Orientation {
+        return when (rotation) {
+            Surface.ROTATION_270 -> ImageProcessingOptions.Orientation.BOTTOM_RIGHT
+            Surface.ROTATION_180 -> ImageProcessingOptions.Orientation.RIGHT_BOTTOM
+            Surface.ROTATION_90 -> ImageProcessingOptions.Orientation.TOP_LEFT
+            else -> ImageProcessingOptions.Orientation.RIGHT_TOP
+        }
+    }
+
+    private fun imgProxyToBitmap(image: ImageProxy): Bitmap {
+        val bitmapBuffer = Bitmap.createBitmap(
+            image.width,
+            image.height,
+            Bitmap.Config.ARGB_8888
+        )
+        image.use { bitmapBuffer.copyPixelsFromBuffer(image.planes[0].buffer) }
+        image.close()
+        return bitmapBuffer
+    }
+
     fun classifyStaticImage(image: Uri) {
         if (imageClassifier == null) {
             setupImageClassifier()
@@ -126,26 +143,6 @@ class ImageClassifierHelper(
         )
     }
 
-    private fun getOrientationFromRotation(rotation: Int): ImageProcessingOptions.Orientation {
-        return when (rotation) {
-            Surface.ROTATION_270 -> ImageProcessingOptions.Orientation.BOTTOM_RIGHT
-            Surface.ROTATION_180 -> ImageProcessingOptions.Orientation.RIGHT_BOTTOM
-            Surface.ROTATION_90 -> ImageProcessingOptions.Orientation.TOP_LEFT
-            else -> ImageProcessingOptions.Orientation.RIGHT_TOP
-        }
-    }
-
-    private fun imgProxyToBitmap(image: ImageProxy): Bitmap {
-        val bitmapBuffer = Bitmap.createBitmap(
-            image.width,
-            image.height,
-            Bitmap.Config.ARGB_8888
-        )
-        image.use { bitmapBuffer.copyPixelsFromBuffer(image.planes[0].buffer) }
-        image.close()
-        return bitmapBuffer
-    }
-
     private fun uriToBitmap(image: Uri): Bitmap {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             val source = ImageDecoder.createSource(context.contentResolver, image)
@@ -153,5 +150,9 @@ class ImageClassifierHelper(
         } else {
             MediaStore.Images.Media.getBitmap(context.contentResolver, image)
         }.copy(Bitmap.Config.ARGB_8888, true)
+    }
+
+    companion object {
+        private const val TAG = "ImageClassifierHelper"
     }
 }
