@@ -81,8 +81,6 @@ class PredictFragment : Fragment() {
         if (uri != null) {
             currentImageUri = uri
             showImage()
-        } else {
-            Log.d("Photo Picker", "No media selected")
         }
     }
 
@@ -97,6 +95,7 @@ class PredictFragment : Fragment() {
     ) { isSuccess ->
         if (isSuccess) {
             showImage()
+            Log.d("Debug", "currentImageUri $currentImageUri")
         }
     }
 
@@ -116,7 +115,7 @@ class PredictFragment : Fragment() {
 
     private fun showImage() {
         currentImageUri?.let {
-            Log.d("Image URI", "showImage: $it")
+            Log.d("Debug", "showImage: $it")
             binding.ivPreview.setImageURI(it)
         }
     }
