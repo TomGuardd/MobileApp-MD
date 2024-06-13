@@ -5,13 +5,12 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import com.capstone.tomguard.R
 import com.capstone.tomguard.databinding.ActivityResultBinding
-import com.capstone.tomguard.ui.ViewModelFactory
-import com.capstone.tomguard.ui.main.MainViewModel
 import com.capstone.tomguard.ui.predict.utils.ImageClassifierHelper
 import org.tensorflow.lite.task.vision.classifier.Classifications
+import java.text.NumberFormat
 
 class ResultActivity : AppCompatActivity(), ImageClassifierHelper.ClassifierListener {
 
@@ -29,16 +28,15 @@ class ResultActivity : AppCompatActivity(), ImageClassifierHelper.ClassifierList
         binding = ActivityResultBinding.inflate(layoutInflater)
         enableEdgeToEdge()
         setContentView(binding.root)
-
+        supportActionBar?.title = getString(R.string.title_prediction_result)
         initImageClassification()
     }
 
     private fun initImageClassification() {
         val imageUri = Uri.parse(intent.getStringExtra(EXTRA_IMAGE_URI))
-
+        Log.d("Debug", "initImageClassification: imageUri $imageUri")
         imageUri?.let {
-            Log.d("Image URI", "showImage: $it")
-            binding.resultImage.setImageURI(it)
+            binding.ivResult.setImageURI(it)
 
             imageClassifierHelper = ImageClassifierHelper(
                 context = this,
@@ -49,10 +47,30 @@ class ResultActivity : AppCompatActivity(), ImageClassifierHelper.ClassifierList
     }
 
     override fun onResults(results: List<Classifications>?, inferenceTime: Long) {
-        results?.let {
-            showResults(it)
-        } ?: run {
-            showToast("No result found")
+//        results?.let {
+//            showResults(it)
+//            Log.d("Debug", "onResult: inferenceTime: $inferenceTime ms")
+//            Log.d("Debug", "onResult: List<Classifications>: $it")
+//        } ?: run {
+//            showToast("No result found")
+//        }
+
+        results?.let { it ->
+            if (it.isNotEmpty() && it[0].categories.isNotEmpty()) {
+                println(it)
+                val sortedCategories =
+                    it[0].categories.sortedByDescending { it?.score }
+                val displayResult =
+                    sortedCategories.joinToString("\n") {
+                        "${it.label} " + NumberFormat.getPercentInstance()
+                            .format(it.score).trim()
+                    }
+                binding.tvResult.text = displayResult
+                binding.tvInference.text = "$inferenceTime ms"
+            } else {
+                binding.tvResult.text = ""
+                binding.tvInference.text = ""
+            }
         }
     }
 
@@ -62,7 +80,7 @@ class ResultActivity : AppCompatActivity(), ImageClassifierHelper.ClassifierList
         val confidence = result.categories[0].score
         val prediction = "$title: ${(confidence * 100).toInt()}%"
 
-        binding.resultText.text = prediction
+        binding.tvResult.text = prediction
     }
 
     override fun onError(error: String) {
