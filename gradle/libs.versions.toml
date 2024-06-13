@@ -27,6 +27,7 @@ cameraCamera2 = "1.3.3"
 cameraCore = "1.3.3"
 cameraView = "1.3.3"
 cameraLifecycle = "1.3.3"
+exifinterface = "1.3.7"
 
 [libraries]
 activity-ktx = { module = "androidx.activity:activity-ktx", version.ref = "activityKtx" }
@@ -55,6 +56,7 @@ tensorflow-lite-task-vision = { module = "org.tensorflow:tensorflow-lite-task-vi
 androidx-camera-core = { group = "androidx.camera", name = "camera-core", version.ref = "cameraCore" }
 androidx-camera-view = { group = "androidx.camera", name = "camera-view", version.ref = "cameraView" }
 androidx-camera-lifecycle = { group = "androidx.camera", name = "camera-lifecycle", version.ref = "cameraLifecycle" }
+androidx-exifinterface = { group = "androidx.exifinterface", name = "exifinterface", version.ref = "exifinterface" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
