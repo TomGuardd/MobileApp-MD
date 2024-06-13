@@ -65,6 +65,8 @@ class ResultActivity : AppCompatActivity(), ImageClassifierHelper.ClassifierList
                         "${it.label} " + NumberFormat.getPercentInstance()
                             .format(it.score).trim()
                     }
+                Log.d("Debug", "onResult: inferenceTime: $inferenceTime ms")
+                Log.d("Debug", "onResult: List<Classifications>: $it")
                 binding.tvResult.text = displayResult
                 binding.tvInference.text = "$inferenceTime ms"
             } else {
