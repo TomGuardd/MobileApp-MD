@@ -5,14 +5,22 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.capstone.tomguard.databinding.ActivityResultBinding
+import com.capstone.tomguard.ui.ViewModelFactory
+import com.capstone.tomguard.ui.main.MainViewModel
 import com.capstone.tomguard.ui.predict.utils.ImageClassifierHelper
 import org.tensorflow.lite.task.vision.classifier.Classifications
 
 class ResultActivity : AppCompatActivity(), ImageClassifierHelper.ClassifierListener {
 
     private lateinit var binding: ActivityResultBinding
+
+    // NOT YET USED
+    //    private val viewModel by viewModels<ResultViewModel> {
+    //        ViewModelFactory.getInstance(this)
+    //    }
 
     private lateinit var imageClassifierHelper: ImageClassifierHelper
 
@@ -22,6 +30,10 @@ class ResultActivity : AppCompatActivity(), ImageClassifierHelper.ClassifierList
         enableEdgeToEdge()
         setContentView(binding.root)
 
+        initImageClassification()
+    }
+
+    private fun initImageClassification() {
         val imageUri = Uri.parse(intent.getStringExtra(EXTRA_IMAGE_URI))
 
         imageUri?.let {
@@ -34,10 +46,6 @@ class ResultActivity : AppCompatActivity(), ImageClassifierHelper.ClassifierList
             )
             imageClassifierHelper.classifyStaticImage(it)
         }
-    }
-
-    override fun onError(error: String) {
-        showToast(error)
     }
 
     override fun onResults(results: List<Classifications>?, inferenceTime: Long) {
@@ -57,6 +65,9 @@ class ResultActivity : AppCompatActivity(), ImageClassifierHelper.ClassifierList
         binding.resultText.text = prediction
     }
 
+    override fun onError(error: String) {
+        showToast(error)
+    }
 
     private fun showToast(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
