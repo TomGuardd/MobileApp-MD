@@ -5,8 +5,10 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.capstone.tomguard.R
+import com.capstone.tomguard.data.database.Prediction
 import com.capstone.tomguard.databinding.ActivityResultBinding
 import com.capstone.tomguard.ui.predict.utils.ImageClassifierHelper
 import org.tensorflow.lite.task.vision.classifier.Classifications
@@ -16,10 +18,9 @@ class ResultActivity : AppCompatActivity(), ImageClassifierHelper.ClassifierList
 
     private lateinit var binding: ActivityResultBinding
 
-    // NOT YET USED
-    //    private val viewModel by viewModels<ResultViewModel> {
-    //        ViewModelFactory.getInstance(this)
-    //    }
+        private val viewModel by viewModels<ResultViewModel> {
+            ResultFactory.getInstance(application)
+        }
 
     private lateinit var imageClassifierHelper: ImageClassifierHelper
 
@@ -29,7 +30,9 @@ class ResultActivity : AppCompatActivity(), ImageClassifierHelper.ClassifierList
         enableEdgeToEdge()
         setContentView(binding.root)
         supportActionBar?.title = getString(R.string.title_prediction_result)
+
         initImageClassification()
+        setupSaveButton()
     }
 
     private fun initImageClassification() {
@@ -47,13 +50,6 @@ class ResultActivity : AppCompatActivity(), ImageClassifierHelper.ClassifierList
     }
 
     override fun onResults(results: List<Classifications>?, inferenceTime: Long) {
-//        results?.let {
-//            showResults(it)
-//            Log.d("Debug", "onResult: inferenceTime: $inferenceTime ms")
-//            Log.d("Debug", "onResult: List<Classifications>: $it")
-//        } ?: run {
-//            showToast("No result found")
-//        }
 
         results?.let { it ->
             if (it.isNotEmpty() && it[0].categories.isNotEmpty()) {
@@ -69,6 +65,12 @@ class ResultActivity : AppCompatActivity(), ImageClassifierHelper.ClassifierList
                 Log.d("Debug", "onResult: List<Classifications>: $it")
                 binding.tvResult.text = displayResult
                 binding.tvInference.text = "$inferenceTime ms"
+
+                viewModel.currentPrediction = Prediction(
+                    imageUri = intent.getStringExtra(EXTRA_IMAGE_URI),
+                    result = displayResult,
+                    inferenceTime = inferenceTime
+                )
             } else {
                 binding.tvResult.text = ""
                 binding.tvInference.text = ""
@@ -76,13 +78,15 @@ class ResultActivity : AppCompatActivity(), ImageClassifierHelper.ClassifierList
         }
     }
 
-    private fun showResults(results: List<Classifications>) {
-        val result = results[0]
-        val title = result.categories[0].label
-        val confidence = result.categories[0].score
-        val prediction = "$title: ${(confidence * 100).toInt()}%"
-
-        binding.tvResult.text = prediction
+    private fun setupSaveButton() {
+        binding.layoutResultButton.saveButton.setOnClickListener {
+            viewModel.currentPrediction?.let {
+                viewModel.insert(it)
+                showToast("Prediction saved")
+            } ?: run {
+                showToast("No prediction to save")
+            }
+        }
     }
 
     override fun onError(error: String) {
