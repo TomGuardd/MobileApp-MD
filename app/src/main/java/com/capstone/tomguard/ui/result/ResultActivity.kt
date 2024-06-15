@@ -1,5 +1,6 @@
 package com.capstone.tomguard.ui.result
 
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -11,6 +12,7 @@ import com.capstone.tomguard.R
 import com.capstone.tomguard.data.database.Prediction
 import com.capstone.tomguard.data.helper.DateHelper
 import com.capstone.tomguard.databinding.ActivityResultBinding
+import com.capstone.tomguard.ui.main.MainActivity
 import com.capstone.tomguard.ui.predict.utils.ImageClassifierHelper
 import org.tensorflow.lite.task.vision.classifier.Classifications
 import java.text.NumberFormat
@@ -86,6 +88,7 @@ class ResultActivity : AppCompatActivity(), ImageClassifierHelper.ClassifierList
         )
         viewModel.insert(prediction)
         Toast.makeText(this, "Prediction saved", Toast.LENGTH_SHORT).show()
+        startActivity(Intent(this, MainActivity::class.java))
     }
 
     override fun onError(error: String) {
