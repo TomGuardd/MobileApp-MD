@@ -37,4 +37,8 @@
     <string name="save">Save</string>
     <string name="discard">Discard</string>
     <string name="title_prediction_result">Prediction result</string>
+    <string name="dummy_date">2024/06/15 16:39:01</string>
+    <string name="item_banner_thumbnail">Prediction thumbnail</string>
+    <string name="date_label">Taken at</string>
+    <string name="prediction_history">Your prediction history</string>
 </resources>
