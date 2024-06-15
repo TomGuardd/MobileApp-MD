@@ -9,6 +9,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.capstone.tomguard.R
 import com.capstone.tomguard.data.database.Prediction
+import com.capstone.tomguard.data.helper.DateHelper
 import com.capstone.tomguard.databinding.ActivityResultBinding
 import com.capstone.tomguard.ui.predict.utils.ImageClassifierHelper
 import org.tensorflow.lite.task.vision.classifier.Classifications
@@ -18,9 +19,9 @@ class ResultActivity : AppCompatActivity(), ImageClassifierHelper.ClassifierList
 
     private lateinit var binding: ActivityResultBinding
 
-        private val viewModel by viewModels<ResultViewModel> {
-            ResultFactory.getInstance(application)
-        }
+    private val viewModel by viewModels<ResultViewModel> {
+        ResultFactory.getInstance(application)
+    }
 
     private lateinit var imageClassifierHelper: ImageClassifierHelper
 
@@ -32,7 +33,11 @@ class ResultActivity : AppCompatActivity(), ImageClassifierHelper.ClassifierList
         supportActionBar?.title = getString(R.string.title_prediction_result)
 
         initImageClassification()
-        setupSaveButton()
+
+        binding.apply {
+            layoutResultButton.saveButton.setOnClickListener() { savePrediction() }
+            layoutResultButton.discardButton.setOnClickListener() { finish() }
+        }
     }
 
     private fun initImageClassification() {
@@ -65,12 +70,6 @@ class ResultActivity : AppCompatActivity(), ImageClassifierHelper.ClassifierList
                 Log.d("Debug", "onResult: List<Classifications>: $it")
                 binding.tvResult.text = displayResult
                 binding.tvInference.text = "$inferenceTime ms"
-
-                viewModel.currentPrediction = Prediction(
-                    imageUri = intent.getStringExtra(EXTRA_IMAGE_URI),
-                    result = displayResult,
-                    inferenceTime = inferenceTime
-                )
             } else {
                 binding.tvResult.text = ""
                 binding.tvInference.text = ""
@@ -78,15 +77,15 @@ class ResultActivity : AppCompatActivity(), ImageClassifierHelper.ClassifierList
         }
     }
 
-    private fun setupSaveButton() {
-        binding.layoutResultButton.saveButton.setOnClickListener {
-            viewModel.currentPrediction?.let {
-                viewModel.insert(it)
-                showToast("Prediction saved")
-            } ?: run {
-                showToast("No prediction to save")
-            }
-        }
+    private fun savePrediction() {
+        val prediction = Prediction(
+            imageUri = intent.getStringExtra(EXTRA_IMAGE_URI),
+            result = binding.tvResult.text.toString(),
+            inferenceTime = binding.tvInference.text.toString().removeSuffix(" ms").toLong(),
+            date = DateHelper.getCurrentDate()
+        )
+        viewModel.insert(prediction)
+        Toast.makeText(this, "Prediction saved", Toast.LENGTH_SHORT).show()
     }
 
     override fun onError(error: String) {

@@ -9,14 +9,21 @@ import kotlinx.parcelize.Parcelize
 @Entity(tableName = "Prediction")
 @Parcelize
 data class Prediction(
+
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
     var id: Int = 0,
+
     @ColumnInfo(name = "imageUri")
     var imageUri: String? = null,
+
     @ColumnInfo(name = "result")
     var result: String? = null,
+
     @ColumnInfo(name = "inferenceTime")
-    var inferenceTime: Long? = null
+    var inferenceTime: Long? = null,
+
+    @ColumnInfo(name = "date")
+    var date: String? = null
 
 ) : Parcelable

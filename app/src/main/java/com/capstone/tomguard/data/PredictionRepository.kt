@@ -18,7 +18,7 @@ class PredictionRepository(application: Application) {
         mPredictionsDao = db.predictionsDao()
     }
 
-    fun getAllPredictions(): LiveData<List<Prediction>> = mPredictionsDao.getAllPredictions()
+//    fun getAllPredictions(): LiveData<List<Prediction>> = mPredictionsDao.getAllPredictions()
 
     fun insert(prediction: Prediction) {
         executorService.execute { mPredictionsDao.insert(prediction) }
