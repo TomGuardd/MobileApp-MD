@@ -4,7 +4,7 @@ import androidx.lifecycle.liveData
 import com.capstone.tomguard.data.api.ApiService
 import com.capstone.tomguard.data.pref.UserModel
 import com.capstone.tomguard.data.pref.UserPreference
-import com.capstone.tomguard.data.response.LoginResponse
+import com.capstone.tomguard.data.response.LoginResponseV2
 import com.google.gson.Gson
 import kotlinx.coroutines.flow.Flow
 import retrofit2.HttpException
@@ -29,14 +29,14 @@ class Repository private constructor(
             val successResponse = apiService.login(email, password)
             val userModel = UserModel(
                 email = email,
-                token = successResponse.loginResult.token,
+                token = successResponse.token,
                 isLogin = true
             )
             saveSession(userModel)
             emit(Result.Success(successResponse))
         } catch (e: HttpException) {
             val errorBody = e.response()?.errorBody()?.string()
-            val errorResponse = Gson().fromJson(errorBody, LoginResponse::class.java)
+            val errorResponse = Gson().fromJson(errorBody, LoginResponseV2::class.java)
             emit(Result.Error(errorResponse.message))
         }
     }

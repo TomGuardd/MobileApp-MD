@@ -71,7 +71,7 @@ class LoginActivity : AppCompatActivity() {
 
                             val userModel = UserModel(
                                 email = email,
-                                token = loginResponse.loginResult.token,
+                                token = loginResponse.token,
                                 isLogin = true
                             )
                             viewModel.saveSession(userModel)

@@ -1,6 +1,6 @@
 package com.capstone.tomguard.data.api
 
-import com.capstone.tomguard.data.response.LoginResponse
+import com.capstone.tomguard.data.response.LoginResponseV2
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.POST
@@ -8,10 +8,10 @@ import retrofit2.http.POST
 interface ApiService {
 
     @FormUrlEncoded
-    @POST("login")
+    @POST("users/login")
     suspend fun login(
         @Field("email") email: String,
         @Field("password") password: String,
-    ): LoginResponse
+    ): LoginResponseV2
 
 }
