@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/item_layout"
     android:layout_width="match_parent"
-    android:layout_height="100dp"
+    android:layout_height="wrap_content"
     android:layout_gravity="center"
     android:layout_marginStart="2dp"
     android:layout_marginTop="4dp"
@@ -14,16 +14,19 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:paddingBottom="8dp"
+        >
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/iv_item_photo"
             android:layout_width="80dp"
-            android:layout_height="match_parent"
-            android:layout_margin="8dp"
+            android:layout_height="80dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="4dp"
             android:contentDescription="@string/item_banner_thumbnail"
             android:scaleType="centerCrop"
-            card_view:layout_constraintBottom_toBottomOf="parent"
             card_view:layout_constraintStart_toStartOf="parent"
             card_view:layout_constraintTop_toTopOf="parent"
             card_view:shapeAppearanceOverlay="@style/roundedImageView"
@@ -67,13 +70,15 @@
             android:id="@+id/tv_item_date"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="9dp"
             android:gravity="start"
             android:text="@string/dummy_date"
             android:textSize="12sp"
-            card_view:layout_constraintBottom_toBottomOf="@id/iv_item_photo"
-            card_view:layout_constraintEnd_toEndOf="parent" />
+            card_view:layout_constraintBottom_toBottomOf="parent"
+            card_view:layout_constraintEnd_toEndOf="parent"
+            card_view:layout_constraintTop_toBottomOf="@id/tv_item_inference_time"
+            card_view:layout_constraintVertical_bias="1.0" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
