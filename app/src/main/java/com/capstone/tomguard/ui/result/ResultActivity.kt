@@ -9,8 +9,6 @@ import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.capstone.tomguard.R
-import com.capstone.tomguard.data.database.Prediction
-import com.capstone.tomguard.data.helper.DateHelper
 import com.capstone.tomguard.databinding.ActivityResultBinding
 import com.capstone.tomguard.ui.main.MainActivity
 import com.capstone.tomguard.ui.predict.utils.ImageClassifierHelper
@@ -82,27 +80,13 @@ class ResultActivity : AppCompatActivity(), ImageClassifierHelper.ClassifierList
 
     private fun savePrediction() {
         val imageUriString = intent.getStringExtra(EXTRA_IMAGE_URI)
-        val prediction = Prediction(
-            imageUri = intent.getStringExtra(EXTRA_IMAGE_URI),
+        viewModel.savePrediction(
             result = binding.tvResult.text.toString(),
             inferenceTime = binding.tvInference.text.toString().removeSuffix(" ms").toLong(),
-            date = DateHelper.getCurrentDate()
+            imageUriString = imageUriString
         )
-        viewModel.insert(prediction)
-        imageUriString?.let {
-            saveUriPermission(Uri.parse(it))
-        }
         Toast.makeText(this, "Prediction saved", Toast.LENGTH_SHORT).show()
         startActivity(Intent(this, MainActivity::class.java))
-    }
-
-    private fun saveUriPermission(uri: Uri) {
-        val sharedPref = getSharedPreferences("app_prefs", MODE_PRIVATE)
-        val editor = sharedPref.edit()
-        editor.putString("persisted_uri", uri.toString())
-        editor.putInt("persisted_uri_flags", Intent.FLAG_GRANT_READ_URI_PERMISSION)
-        editor.apply()
-        contentResolver.takePersistableUriPermission(uri, Intent.FLAG_GRANT_READ_URI_PERMISSION)
     }
 
     override fun onError(error: String) {

@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.capstone.tomguard.ui.dashboard.DashboardViewModel
+import com.capstone.tomguard.ui.main.MainViewModel
 import com.capstone.tomguard.ui.result.ResultViewModel
 
 class PredictionViewModelFactory private constructor(private val mApplication: Application) :
