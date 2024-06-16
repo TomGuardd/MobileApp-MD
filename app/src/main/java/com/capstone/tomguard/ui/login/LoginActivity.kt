@@ -12,7 +12,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import com.capstone.tomguard.ui.ViewModelFactory
+import com.capstone.tomguard.ui.MainViewModelFactory
 import com.capstone.tomguard.data.Result
 import com.capstone.tomguard.data.pref.UserModel
 import com.capstone.tomguard.databinding.ActivityLoginBinding
@@ -24,7 +24,7 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
 
     private val viewModel by viewModels<LoginViewModel> {
-        ViewModelFactory.getInstance(this)
+        MainViewModelFactory.getInstance(this)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

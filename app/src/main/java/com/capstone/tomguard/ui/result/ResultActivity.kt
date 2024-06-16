@@ -14,6 +14,7 @@ import com.capstone.tomguard.data.helper.DateHelper
 import com.capstone.tomguard.databinding.ActivityResultBinding
 import com.capstone.tomguard.ui.main.MainActivity
 import com.capstone.tomguard.ui.predict.utils.ImageClassifierHelper
+import com.capstone.tomguard.ui.PredictionViewModelFactory
 import org.tensorflow.lite.task.vision.classifier.Classifications
 import java.text.NumberFormat
 
@@ -22,7 +23,7 @@ class ResultActivity : AppCompatActivity(), ImageClassifierHelper.ClassifierList
     private lateinit var binding: ActivityResultBinding
 
     private val viewModel by viewModels<ResultViewModel> {
-        ResultFactory.getInstance(application)
+        PredictionViewModelFactory.getInstance(application)
     }
 
     private lateinit var imageClassifierHelper: ImageClassifierHelper
@@ -46,7 +47,7 @@ class ResultActivity : AppCompatActivity(), ImageClassifierHelper.ClassifierList
         val imageUri = Uri.parse(intent.getStringExtra(EXTRA_IMAGE_URI))
         Log.d("Debug", "initImageClassification: imageUri $imageUri")
         imageUri?.let {
-            binding.ivResult.setImageURI(it)
+                 binding.ivResult.setImageURI(it)
 
             imageClassifierHelper = ImageClassifierHelper(
                 context = this,
@@ -80,6 +81,7 @@ class ResultActivity : AppCompatActivity(), ImageClassifierHelper.ClassifierList
     }
 
     private fun savePrediction() {
+        val imageUriString = intent.getStringExtra(EXTRA_IMAGE_URI)
         val prediction = Prediction(
             imageUri = intent.getStringExtra(EXTRA_IMAGE_URI),
             result = binding.tvResult.text.toString(),
@@ -87,8 +89,20 @@ class ResultActivity : AppCompatActivity(), ImageClassifierHelper.ClassifierList
             date = DateHelper.getCurrentDate()
         )
         viewModel.insert(prediction)
+        imageUriString?.let {
+            saveUriPermission(Uri.parse(it))
+        }
         Toast.makeText(this, "Prediction saved", Toast.LENGTH_SHORT).show()
         startActivity(Intent(this, MainActivity::class.java))
+    }
+
+    private fun saveUriPermission(uri: Uri) {
+        val sharedPref = getSharedPreferences("app_prefs", MODE_PRIVATE)
+        val editor = sharedPref.edit()
+        editor.putString("persisted_uri", uri.toString())
+        editor.putInt("persisted_uri_flags", Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        editor.apply()
+        contentResolver.takePersistableUriPermission(uri, Intent.FLAG_GRANT_READ_URI_PERMISSION)
     }
 
     override fun onError(error: String) {

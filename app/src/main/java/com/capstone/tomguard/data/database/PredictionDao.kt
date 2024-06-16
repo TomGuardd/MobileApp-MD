@@ -1,8 +1,10 @@
 package com.capstone.tomguard.data.database
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
+import androidx.room.Query
 
 @Dao
 interface PredictionDao {
@@ -10,6 +12,6 @@ interface PredictionDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insert(prediction: Prediction)
 
-    //    @Query("SELECT * from prediction ORDER BY id ASC")
-    //    fun getAllPredictions(): LiveData<List<Prediction>>
+    @Query("SELECT * from prediction ORDER BY id ASC")
+    fun getAllPredictions(): LiveData<List<Prediction>>
 }

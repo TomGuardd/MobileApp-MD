@@ -9,7 +9,7 @@ import com.google.gson.Gson
 import kotlinx.coroutines.flow.Flow
 import retrofit2.HttpException
 
-class Repository private constructor(
+class UserRepository private constructor(
 
     private val apiService: ApiService,
     private val userPreference: UserPreference
@@ -43,13 +43,13 @@ class Repository private constructor(
 
     companion object {
         @Volatile
-        private var instance: Repository? = null
+        private var instance: UserRepository? = null
         fun getInstance(
             apiService: ApiService,
             userPreference: UserPreference
-        ): Repository =
+        ): UserRepository =
             instance ?: synchronized(this) {
-                instance ?: Repository(apiService, userPreference)
+                instance ?: UserRepository(apiService, userPreference)
             }.also { instance = it }
     }
 

@@ -3,41 +3,40 @@ package com.capstone.tomguard.ui
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.capstone.tomguard.data.Repository
+import com.capstone.tomguard.data.UserRepository
 import com.capstone.tomguard.di.Injection
 import com.capstone.tomguard.ui.login.LoginViewModel
 import com.capstone.tomguard.ui.main.MainViewModel
 
-class ViewModelFactory(private val repository: Repository) :
+class MainViewModelFactory(private val userRepository: UserRepository) :
     ViewModelProvider.NewInstanceFactory() {
+
+    companion object {
+        @Volatile
+        private var INSTANCE: MainViewModelFactory? = null
+
+        @JvmStatic
+        fun getInstance(context: Context): MainViewModelFactory {
+            if (INSTANCE == null) {
+                synchronized(MainViewModelFactory::class.java) {
+                    INSTANCE = MainViewModelFactory(Injection.provideRepository(context))
+                }
+            }
+            return INSTANCE as MainViewModelFactory
+        }
+    }
 
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return when {
-
             modelClass.isAssignableFrom(MainViewModel::class.java) -> {
-                MainViewModel(repository) as T
+                MainViewModel(userRepository) as T
             }
-
             modelClass.isAssignableFrom(LoginViewModel::class.java) -> {
-                LoginViewModel(repository) as T
+                LoginViewModel(userRepository) as T
             }
-            // ... other view models
             else -> throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
         }
     }
 
-    companion object {
-        @Volatile
-        private var INSTANCE: ViewModelFactory? = null
-        @JvmStatic
-        fun getInstance(context: Context): ViewModelFactory {
-            if (INSTANCE == null) {
-                synchronized(ViewModelFactory::class.java) {
-                    INSTANCE = ViewModelFactory(Injection.provideRepository(context))
-                }
-            }
-            return INSTANCE as ViewModelFactory
-        }
-    }
 }
