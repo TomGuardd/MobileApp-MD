@@ -7,8 +7,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.capstone.tomguard.R
-import com.capstone.tomguard.data.database.Prediction
-import com.capstone.tomguard.data.helper.PredictionDiffCallback
+import com.capstone.tomguard.data.local.database.Prediction
 import com.capstone.tomguard.databinding.LayoutItemPredictionBinding
 
 class PredictionAdapter : RecyclerView.Adapter<PredictionAdapter.PredictionViewHolder>() {

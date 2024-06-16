@@ -6,8 +6,8 @@ import android.content.Intent
 import android.net.Uri
 import androidx.lifecycle.AndroidViewModel
 import com.capstone.tomguard.data.PredictionRepository
-import com.capstone.tomguard.data.database.Prediction
-import com.capstone.tomguard.data.helper.DateHelper
+import com.capstone.tomguard.data.local.database.Prediction
+import com.capstone.tomguard.data.DateHelper
 
 class ResultViewModel(application: Application) : AndroidViewModel(application) {
     private val mPredictionRepository: PredictionRepository = PredictionRepository(application)

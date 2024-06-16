@@ -14,7 +14,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.capstone.tomguard.ui.MainViewModelFactory
 import com.capstone.tomguard.data.Result
-import com.capstone.tomguard.data.pref.UserModel
+import com.capstone.tomguard.data.model.UserModel
 import com.capstone.tomguard.databinding.ActivityLoginBinding
 import com.capstone.tomguard.ui.main.MainActivity
 

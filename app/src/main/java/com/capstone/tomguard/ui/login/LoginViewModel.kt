@@ -3,7 +3,7 @@ package com.capstone.tomguard.ui.login
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.capstone.tomguard.data.UserRepository
-import com.capstone.tomguard.data.pref.UserModel
+import com.capstone.tomguard.data.model.UserModel
 import kotlinx.coroutines.launch
 
 class LoginViewModel(private val userRepository: UserRepository) : ViewModel() {

@@ -8,8 +8,9 @@ import com.capstone.tomguard.di.Injection
 import com.capstone.tomguard.ui.login.LoginViewModel
 import com.capstone.tomguard.ui.main.MainViewModel
 
-class MainViewModelFactory(private val userRepository: UserRepository) :
-    ViewModelProvider.NewInstanceFactory() {
+class MainViewModelFactory(
+    private val userRepository: UserRepository
+) : ViewModelProvider.NewInstanceFactory() {
 
     companion object {
         @Volatile

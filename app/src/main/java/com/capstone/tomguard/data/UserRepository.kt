@@ -1,10 +1,10 @@
 package com.capstone.tomguard.data
 
 import androidx.lifecycle.liveData
-import com.capstone.tomguard.data.api.ApiService
-import com.capstone.tomguard.data.pref.UserModel
-import com.capstone.tomguard.data.pref.UserPreference
-import com.capstone.tomguard.data.response.LoginResponseV2
+import com.capstone.tomguard.data.network.ApiService
+import com.capstone.tomguard.data.model.UserModel
+import com.capstone.tomguard.data.local.datastore.UserPreference
+import com.capstone.tomguard.data.model.LoginResponse
 import com.google.gson.Gson
 import kotlinx.coroutines.flow.Flow
 import retrofit2.HttpException
@@ -36,7 +36,7 @@ class UserRepository private constructor(
             emit(Result.Success(successResponse))
         } catch (e: HttpException) {
             val errorBody = e.response()?.errorBody()?.string()
-            val errorResponse = Gson().fromJson(errorBody, LoginResponseV2::class.java)
+            val errorResponse = Gson().fromJson(errorBody, LoginResponse::class.java)
             emit(Result.Error(errorResponse.message))
         }
     }

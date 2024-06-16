@@ -1,4 +1,4 @@
-package com.capstone.tomguard.data.database
+package com.capstone.tomguard.data.local.database
 
 import androidx.lifecycle.LiveData
 import androidx.room.Dao

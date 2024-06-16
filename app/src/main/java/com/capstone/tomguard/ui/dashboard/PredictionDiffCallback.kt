@@ -1,7 +1,7 @@
-package com.capstone.tomguard.data.helper
+package com.capstone.tomguard.ui.dashboard
 
 import androidx.recyclerview.widget.DiffUtil
-import com.capstone.tomguard.data.database.Prediction
+import com.capstone.tomguard.data.local.database.Prediction
 
 class PredictionDiffCallback(private val oldPredictionList: List<Prediction>, private val newPredictionList: List<Prediction>) : DiffUtil.Callback() {
 

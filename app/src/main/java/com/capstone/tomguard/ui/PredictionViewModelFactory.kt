@@ -7,8 +7,9 @@ import com.capstone.tomguard.ui.dashboard.DashboardViewModel
 import com.capstone.tomguard.ui.main.MainViewModel
 import com.capstone.tomguard.ui.result.ResultViewModel
 
-class PredictionViewModelFactory private constructor(private val mApplication: Application) :
-    ViewModelProvider.NewInstanceFactory() {
+class PredictionViewModelFactory (
+    private val mApplication: Application
+) : ViewModelProvider.NewInstanceFactory() {
 
     companion object {
         @Volatile

@@ -1,8 +1,8 @@
-package com.capstone.tomguard.data.response
+package com.capstone.tomguard.data.model
 
 import com.google.gson.annotations.SerializedName
 
-data class LoginResponseV2(
+data class LoginResponse(
 
 	@field:SerializedName("user")
 	val user: User,

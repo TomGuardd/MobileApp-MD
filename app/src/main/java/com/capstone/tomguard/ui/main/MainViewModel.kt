@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import com.capstone.tomguard.data.UserRepository
-import com.capstone.tomguard.data.pref.UserModel
+import com.capstone.tomguard.data.model.UserModel
 
 class MainViewModel(private val userRepository: UserRepository) : ViewModel() {
 
