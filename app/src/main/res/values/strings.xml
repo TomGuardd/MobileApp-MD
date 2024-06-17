@@ -41,4 +41,8 @@
     <string name="item_banner_thumbnail">Prediction thumbnail</string>
     <string name="date_label">Taken at</string>
     <string name="prediction_history">Your prediction history</string>
+    <string name="languages">Language</string>
+    <string name="language_desc">Select language</string>
+    <string name="dark_mode">Dark Mode</string>
+    <string name="dark_mode_description">Change the color theme</string>
 </resources>
