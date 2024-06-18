@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="@color/orange_main"
     android:layout_height="match_parent"
     tools:context=".ui.dashboard.DashboardFragment">
 
@@ -12,26 +13,64 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:text="@string/title_dashboard"
-        android:textSize="20sp"
-        android:textStyle="bold"
+        android:text="@string/welcome"
+        android:textColor="@color/black"
+        android:fontFamily="@font/lato_bold"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <include
+    <RelativeLayout
         android:id="@+id/card_user"
-        layout="@layout/layout_profile_dashboard"
-        android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintBottom_toTopOf="@id/tv_predictions_history"
+        android:layout_width="367dp"
+        android:layout_height="81dp"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/bg_dashboard_profile"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="12dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_dashboard" />
+        app:layout_constraintTop_toBottomOf="@id/tv_welcome">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/iv_profile"
+            android:layout_width="83dp"
+            android:layout_height="69dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="31dp"
+            android:layout_marginBottom="0dp"
+            android:src="@drawable/ic_account_circle_grey_128" />
+
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="9dp"
+            android:layout_toEndOf="@id/iv_profile"
+            android:maxLines="1"
+            android:text="@string/dummy_username"
+            android:textColor="@color/black"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/tv_email"
+            android:layout_width="171dp"
+            android:layout_height="34dp"
+            android:layout_below="@+id/tv_name"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginEnd="53dp"
+            android:layout_marginBottom="0dp"
+            android:layout_toEndOf="@id/iv_profile"
+            android:maxLines="1"
+            android:text="@string/dummy_email"
+            android:textColor="@color/black"
+            android:textSize="14sp" />
+    </RelativeLayout>
 
     <TextView
         android:id="@+id/tv_predictions_history"
@@ -45,6 +84,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/card_user" />
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_predictions"
