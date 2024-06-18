@@ -24,14 +24,14 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.37"
+                app:layout_constraintVertical_bias="0.26"
                 tools:visibility="visible" />
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/iv_profile"
                 android:layout_width="128dp"
                 android:layout_height="128dp"
-                android:layout_marginTop="64dp"
+                android:layout_marginTop="44dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -43,13 +43,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:maxLines="1"
-                android:text="@string/dummy_username"
+                android:text="@string/blank_username"
                 android:textAlignment="center"
                 android:textSize="20sp"
                 app:layout_constraintEnd_toEndOf="@id/iv_profile"
                 app:layout_constraintStart_toStartOf="@id/iv_profile"
                 app:layout_constraintTop_toBottomOf="@id/iv_profile"
-                tools:text="@string/dummy_username" />
+                tools:text="@string/blank_username" />
 
             <TextView
                 android:id="@+id/tv_email"
@@ -57,54 +57,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:maxLines="1"
-                android:text="@string/dummy_email"
+                android:text="@string/blank_email"
                 android:textAlignment="center"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="@id/iv_profile"
                 app:layout_constraintStart_toStartOf="@id/iv_profile"
                 app:layout_constraintTop_toBottomOf="@id/tv_username"
-                tools:text="@string/dummy_email" />
-
-            <TextView
-                android:id="@+id/tv_label_name"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="30dp"
-                android:layout_marginEnd="24dp"
-                android:maxLines="1"
-                android:text="@string/name"
-                android:textSize="16sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_email" />
-
-            <TextView
-                android:id="@+id/tv_username_edit"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="12dp"
-                android:maxLines="1"
-                android:text="@string/dummy_username"
-                android:textSize="20sp"
-                app:layout_constraintEnd_toStartOf="@id/btn_edit_name"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_label_name"
-                tools:text="@string/dummy_username" />
-
-            <ImageView
-                android:id="@+id/btn_edit_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="24dp"
-                android:contentDescription="@string/edit_name"
-                android:src="@drawable/ic_edit_grey_24"
-                app:layout_constraintBottom_toBottomOf="@+id/tv_username_edit"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/tv_username_edit"
-                app:layout_constraintTop_toTopOf="@+id/tv_username_edit" />
+                tools:text="@string/blank_email" />
 
             <View
                 android:layout_width="0dp"
@@ -112,50 +71,59 @@
                 android:layout_marginTop="16dp"
                 android:background="?android:attr/listDivider"
                 android:orientation="vertical"
-                app:layout_constraintEnd_toEndOf="@id/btn_edit_name"
-                app:layout_constraintStart_toStartOf="@id/tv_username_edit"
-                app:layout_constraintTop_toBottomOf="@id/tv_username_edit" />
+                app:layout_constraintEnd_toEndOf="@id/included_edit_username"
+                app:layout_constraintStart_toStartOf="@id/included_edit_username"
+                app:layout_constraintTop_toBottomOf="@id/tv_email" />
 
             <TextView
-                android:id="@+id/tv_label_email"
+                android:id="@+id/tv_label_account"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="40dp"
                 android:layout_marginEnd="24dp"
                 android:maxLines="1"
-                android:text="@string/email"
-                android:textSize="16sp"
+                android:text="@string/account_setting"
+                android:textSize="12sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_username_edit" />
+                app:layout_constraintTop_toBottomOf="@id/tv_email" />
 
-            <TextView
-                android:id="@+id/tv_email_edit"
+            <include
+                android:id="@+id/included_edit_username"
+                layout="@layout/layout_setting_username"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="12dp"
-                android:maxLines="1"
-                android:text="@string/dummy_email"
-                android:textSize="20sp"
-                app:layout_constraintEnd_toStartOf="@id/btn_edit_email"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_label_email"
-                tools:text="@string/dummy_email" />
-
-            <ImageView
-                android:id="@+id/btn_edit_email"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="24dp"
-                android:contentDescription="@string/edit_email"
-                android:src="@drawable/ic_edit_grey_24"
-                app:layout_constraintBottom_toBottomOf="@+id/tv_email_edit"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/tv_email_edit"
-                app:layout_constraintTop_toTopOf="@+id/tv_email_edit" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_label_account" />
+
+            <include
+                android:id="@+id/included_edit_pict"
+                layout="@layout/layout_setting_picture"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/included_edit_username" />
+
+            <include
+                android:id="@+id/included_edit_pass"
+                layout="@layout/layout_setting_reset_pass"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/included_edit_pict" />
 
             <View
                 android:layout_width="0dp"
@@ -163,25 +131,39 @@
                 android:layout_marginTop="16dp"
                 android:background="?android:attr/listDivider"
                 android:orientation="vertical"
-                app:layout_constraintEnd_toEndOf="@id/btn_edit_name"
-                app:layout_constraintStart_toStartOf="@id/tv_username_edit"
-                app:layout_constraintTop_toBottomOf="@id/tv_email_edit" />
+                app:layout_constraintEnd_toEndOf="@id/included_edit_username"
+                app:layout_constraintStart_toStartOf="@id/included_edit_username"
+                app:layout_constraintTop_toBottomOf="@id/included_edit_pass" />
+
+            <TextView
+                android:id="@+id/tv_label_app"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="40dp"
+                android:layout_marginEnd="24dp"
+                android:maxLines="1"
+                android:text="@string/application_setting"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/included_edit_pass" />
 
             <include
                 android:id="@+id/included_language_setting"
-                layout="@layout/layout_language_setting"
+                layout="@layout/layout_setting_language"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_email_edit" />
+                app:layout_constraintTop_toBottomOf="@id/tv_label_app" />
 
             <include
                 android:id="@+id/included_darkmode_setting"
-                layout="@layout/layout_darkmode_setting"
+                layout="@layout/layout_setting_darkmode"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
