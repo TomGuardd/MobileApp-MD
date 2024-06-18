@@ -21,6 +21,10 @@ class UserRepository private constructor(
         return userPreference.getSession()
     }
 
+    suspend fun logout() {
+        userPreference.logout()
+    }
+
     suspend fun saveSession(user: UserModel) {
         userPreference.saveSession(user)
     }

@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
 import com.capstone.tomguard.R
@@ -42,6 +43,8 @@ class ProfileFragment : Fragment() {
                 getProfile(user.token)
             }
         }
+
+        binding.tvLogout.setOnClickListener { logout() }
     }
 
     private fun getProfile(token: String) {
@@ -72,6 +75,21 @@ class ProfileFragment : Fragment() {
                 .into(ivProfile)
             tvUsername.text = profile.name
             tvEmail.text = profile.email
+        }
+    }
+
+    private fun logout() {
+        AlertDialog.Builder(requireContext()).apply {
+            setTitle(getString(R.string.logout))
+            setMessage(getString(R.string.logout_message))
+            setPositiveButton(R.string.yes) { _, _ ->
+                viewModel.logout()
+            }
+            setNegativeButton(R.string.no) { _, _ ->
+
+            }
+            create()
+            show()
         }
     }
 

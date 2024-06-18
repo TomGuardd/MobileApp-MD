@@ -45,4 +45,7 @@
     <string name="language_desc">Select language</string>
     <string name="dark_mode">Dark Mode</string>
     <string name="dark_mode_description">Change the color theme</string>
+    <string name="logout_message">Are you sure you want to leave?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 </resources>
