@@ -1,10 +1,12 @@
 package com.capstone.tomguard.data
 
+import android.util.Log
 import androidx.lifecycle.liveData
 import com.capstone.tomguard.data.network.ApiService
 import com.capstone.tomguard.data.model.UserModel
 import com.capstone.tomguard.data.local.datastore.UserPreference
 import com.capstone.tomguard.data.model.LoginResponse
+import com.capstone.tomguard.data.model.ProfileResponse
 import com.google.gson.Gson
 import kotlinx.coroutines.flow.Flow
 import retrofit2.HttpException
@@ -17,6 +19,10 @@ class UserRepository private constructor(
 
     fun getSession(): Flow<UserModel> {
         return userPreference.getSession()
+    }
+
+    suspend fun logout() {
+        userPreference.logout()
     }
 
     suspend fun saveSession(user: UserModel) {
@@ -38,6 +44,19 @@ class UserRepository private constructor(
             val errorBody = e.response()?.errorBody()?.string()
             val errorResponse = Gson().fromJson(errorBody, LoginResponse::class.java)
             emit(Result.Error(errorResponse.message))
+        }
+    }
+
+    fun getProfile(token: String) = liveData {
+        emit(Result.Loading)
+        try {
+            val successResponse = apiService.getProfile("Bearer $token")
+            Log.d("Debug", "UserRepository token : $token" )
+            emit(Result.Success(successResponse))
+        } catch (e: HttpException) {
+            val errorBody = e.response()?.errorBody()?.string()
+            val errorResponse = Gson().fromJson(errorBody, ProfileResponse::class.java)
+            emit(errorResponse.message?.let { Result.Error(it) })
         }
     }
 

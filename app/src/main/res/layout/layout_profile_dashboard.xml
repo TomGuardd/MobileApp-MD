@@ -50,7 +50,7 @@
         card_view:layout_constraintTop_toTopOf="@id/iv_profile" />
 
     <TextView
-        android:id="@+id/tv_email"
+        android:id="@+id/tv_email_edit"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
