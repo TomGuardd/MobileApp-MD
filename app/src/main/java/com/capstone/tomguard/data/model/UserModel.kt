@@ -1,4 +1,4 @@
-package com.capstone.tomguard.data.pref
+package com.capstone.tomguard.data.model
 
 data class UserModel(
 

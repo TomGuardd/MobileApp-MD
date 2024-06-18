@@ -7,4 +7,9 @@
 
     <style name="Theme.TomGuard" parent="Base.Theme.TomGuard" />
 
+    <style name="roundedImageView" parent="Base.Theme.TomGuard">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">8dp</item>
+    </style>
+
 </resources>

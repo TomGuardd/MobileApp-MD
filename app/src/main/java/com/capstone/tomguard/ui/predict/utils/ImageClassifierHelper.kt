@@ -2,7 +2,11 @@ package com.capstone.tomguard.ui.predict.utils
 
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.ImageDecoder
+import android.net.Uri
+import android.os.Build
 import android.os.SystemClock
+import android.provider.MediaStore
 import android.util.Log
 import android.view.Surface
 import androidx.camera.core.ImageProxy
@@ -42,7 +46,8 @@ class ImageClassifierHelper(
 
     private fun setupImageClassifier() {
         // konfigurasi nilai threshold, maksimal hasil, jumlah thread
-        val optionsBuilder = ImageClassifier.ImageClassifierOptions.builder()
+        val optionsBuilder = ImageClassifier
+            .ImageClassifierOptions.builder()
             .setScoreThreshold(threshold)
             .setMaxResults(maxResults)
         val baseOptionBuilder = BaseOptions.builder()
@@ -61,10 +66,6 @@ class ImageClassifierHelper(
         }
     }
 
-    companion object {
-        private const val TAG = "ImageClassifierHelper"
-    }
-
     // Fungsi untuk melakukan pemrosesan klasifikasi
     fun classifyImage(image: ImageProxy) {
         if (imageClassifier == null) {
@@ -81,7 +82,7 @@ class ImageClassifierHelper(
         // ImageProcessor digunakan untuk membuat TensorImage dari Bitmap. TensorImage
         // merupakan wrapper class yang digunakan untuk mewakili gambar sebelum diproses oleh TFite.
         // Fungsi TensorImage.fromBitmap() digunakan untuk mengonversi Bitmap menjadi TensorImage.
-        val tensorImage = imageProcessor.process(TensorImage.fromBitmap(toBitmap(image)))
+        val tensorImage = imageProcessor.process(TensorImage.fromBitmap(imgProxyToBitmap(image)))
 
         // Mengatur orientasi gambar supaya sesuai dengan gambar pada model
         val imageProcessingOptions = ImageProcessingOptions.builder()
@@ -107,7 +108,7 @@ class ImageClassifierHelper(
         }
     }
 
-    private fun toBitmap(image: ImageProxy): Bitmap {
+    private fun imgProxyToBitmap(image: ImageProxy): Bitmap {
         val bitmapBuffer = Bitmap.createBitmap(
             image.width,
             image.height,
@@ -116,5 +117,42 @@ class ImageClassifierHelper(
         image.use { bitmapBuffer.copyPixelsFromBuffer(image.planes[0].buffer) }
         image.close()
         return bitmapBuffer
+    }
+
+    fun classifyStaticImage(image: Uri) {
+        if (imageClassifier == null) {
+            setupImageClassifier()
+        }
+
+        // Preparing ImageProcessor for image preprocessing according metadata model, 224x224 UINT8
+        val imageProcessor = ImageProcessor.Builder()
+            .add(ResizeOp(224, 224, ResizeOp.ResizeMethod.NEAREST_NEIGHBOR))
+            .add(CastOp(DataType.UINT8))
+            .build()
+
+        // Function TensorImage.fromBitmap() convert Bitmap into TensorImage
+        val tensorImage = imageProcessor.process(TensorImage.fromBitmap(uriToBitmap(image)))
+
+        // Start the inference process by call the classify func
+        var inferenceTime = SystemClock.uptimeMillis()
+        val results = imageClassifier?.classify(tensorImage)
+        inferenceTime = SystemClock.uptimeMillis() - inferenceTime
+        classifierListener?.onResults(
+            results,
+            inferenceTime
+        )
+    }
+
+    private fun uriToBitmap(image: Uri): Bitmap {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            val source = ImageDecoder.createSource(context.contentResolver, image)
+            ImageDecoder.decodeBitmap(source)
+        } else {
+            MediaStore.Images.Media.getBitmap(context.contentResolver, image)
+        }.copy(Bitmap.Config.ARGB_8888, true)
+    }
+
+    companion object {
+        private const val TAG = "ImageClassifierHelper"
     }
 }

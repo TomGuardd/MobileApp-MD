@@ -1,6 +1,7 @@
 package com.capstone.tomguard.ui.main
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.view.WindowInsets
@@ -8,24 +9,21 @@ import android.view.WindowManager
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.findNavController
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI.setupWithNavController
-import androidx.navigation.ui.setupActionBarWithNavController
-import androidx.navigation.ui.setupWithNavController
 import com.capstone.tomguard.R
 import com.capstone.tomguard.databinding.ActivityMainBinding
-import com.capstone.tomguard.ui.ViewModelFactory
+import com.capstone.tomguard.ui.MainViewModelFactory
 import com.capstone.tomguard.ui.login.LoginActivity
-import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
     private val viewModel by viewModels<MainViewModel> {
-        ViewModelFactory.getInstance(this)
+        MainViewModelFactory.getInstance(this)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,10 +31,16 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         enableEdgeToEdge()
         setContentView(binding.root)
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            insets
+        }
 
         setupBottomNavigation()
         getSession()
         setupView()
+        restoreUriPermission()
     }
 
     private fun setupBottomNavigation() {
@@ -66,5 +70,19 @@ class MainActivity : AppCompatActivity() {
             )
         }
         supportActionBar?.hide()
+    }
+
+    private fun restoreUriPermission() {
+        val sharedPref = getSharedPreferences("app_prefs", MODE_PRIVATE)
+        val uriString = sharedPref.getString("persisted_uri", null)
+        val flags = sharedPref.getInt("persisted_uri_flags", 0)
+        uriString?.let {
+            val uri = Uri.parse(it)
+            try {
+                contentResolver.takePersistableUriPermission(uri, flags)
+            } catch (e: SecurityException) {
+                e.printStackTrace()
+            }
+        }
     }
 }

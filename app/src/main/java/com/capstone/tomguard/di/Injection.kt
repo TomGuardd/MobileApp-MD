@@ -1,15 +1,15 @@
 package com.capstone.tomguard.di
 
 import android.content.Context
-import com.capstone.tomguard.data.Repository
-import com.capstone.tomguard.data.api.ApiConfig
-import com.capstone.tomguard.data.pref.UserPreference
-import com.capstone.tomguard.data.pref.dataStore
+import com.capstone.tomguard.data.UserRepository
+import com.capstone.tomguard.data.network.ApiConfig
+import com.capstone.tomguard.data.local.datastore.UserPreference
+import com.capstone.tomguard.data.local.datastore.dataStore
 
 object Injection {
-    fun provideRepository(context: Context): Repository {
+    fun provideRepository(context: Context): UserRepository {
         val apiService = ApiConfig.getApiService()
         val pref = UserPreference.getInstance(context.dataStore)
-        return Repository.getInstance(apiService, pref)
+        return UserRepository.getInstance(apiService, pref)
     }
 }
