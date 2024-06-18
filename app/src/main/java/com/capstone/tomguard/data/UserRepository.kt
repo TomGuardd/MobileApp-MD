@@ -4,7 +4,7 @@ import android.util.Log
 import androidx.lifecycle.liveData
 import com.capstone.tomguard.data.network.ApiService
 import com.capstone.tomguard.data.model.UserModel
-import com.capstone.tomguard.data.local.datastore.UserPreference
+import com.capstone.tomguard.data.datastore.UserPreference
 import com.capstone.tomguard.data.model.LoginResponse
 import com.capstone.tomguard.data.model.ProfileResponse
 import com.capstone.tomguard.data.model.UploadResponse

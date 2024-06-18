@@ -40,7 +40,7 @@ class MainActivity : AppCompatActivity() {
         setupBottomNavigation()
         getSession()
         setupView()
-        restoreUriPermission()
+//        restoreUriPermission()
     }
 
     private fun setupBottomNavigation() {
@@ -72,17 +72,17 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.hide()
     }
 
-    private fun restoreUriPermission() {
-        val sharedPref = getSharedPreferences("app_prefs", MODE_PRIVATE)
-        val uriString = sharedPref.getString("persisted_uri", null)
-        val flags = sharedPref.getInt("persisted_uri_flags", 0)
-        uriString?.let {
-            val uri = Uri.parse(it)
-            try {
-                contentResolver.takePersistableUriPermission(uri, flags)
-            } catch (e: SecurityException) {
-                e.printStackTrace()
-            }
-        }
-    }
+//    private fun restoreUriPermission() {
+//        val sharedPref = getSharedPreferences("app_prefs", MODE_PRIVATE)
+//        val uriString = sharedPref.getString("persisted_uri", null)
+//        val flags = sharedPref.getInt("persisted_uri_flags", 0)
+//        uriString?.let {
+//            val uri = Uri.parse(it)
+//            try {
+//                contentResolver.takePersistableUriPermission(uri, flags)
+//            } catch (e: SecurityException) {
+//                e.printStackTrace()
+//            }
+//        }
+//    }
 }

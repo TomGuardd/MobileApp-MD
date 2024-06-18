@@ -1,4 +1,4 @@
-package com.capstone.tomguard.data.local.datastore
+package com.capstone.tomguard.data.datastore
 
 import android.content.Context
 import androidx.datastore.core.DataStore

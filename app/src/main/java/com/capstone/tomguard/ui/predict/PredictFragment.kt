@@ -1,7 +1,6 @@
 package com.capstone.tomguard.ui.predict
 
 import android.Manifest
-import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
@@ -16,26 +15,11 @@ import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
-import androidx.core.net.toUri
 import androidx.fragment.app.viewModels
 import com.capstone.tomguard.data.Result
-import androidx.lifecycle.lifecycleScope
 import com.capstone.tomguard.R
-import com.capstone.tomguard.data.network.ApiConfig
 import com.capstone.tomguard.databinding.FragmentPredictBinding
 import com.capstone.tomguard.ui.MainViewModelFactory
-import com.capstone.tomguard.ui.main.MainActivity
-import com.capstone.tomguard.ui.predict.CameraxActivity.Companion.CAMERAX_RESULT
-import com.capstone.tomguard.ui.predict.utils.getImageUri
-import com.capstone.tomguard.ui.predict.utils.reduceFileImage
-import com.capstone.tomguard.ui.predict.utils.uriToFile
-import com.capstone.tomguard.ui.result.ResultActivity
-import com.google.gson.Gson
-import kotlinx.coroutines.launch
-import okhttp3.MediaType.Companion.toMediaType
-import okhttp3.MultipartBody
-import okhttp3.RequestBody.Companion.asRequestBody
-import retrofit2.HttpException
 
 class PredictFragment : Fragment() {
 
@@ -78,13 +62,7 @@ class PredictFragment : Fragment() {
 
         binding.layoutButton.galleryButton.setOnClickListener { startGallery() }
         binding.layoutButton.cameraButton.setOnClickListener { startCamera() }
-        binding.layoutButton.cameraXButton.setOnClickListener { startCameraX() }
         binding.btnPredict.setOnClickListener { uploadImage() }
-//            currentImageUri?.let {
-//                analyzeStaticImage(it)
-//            } ?: run {
-//                showToast(getString(R.string.empty_image_warning))
-//            }
     }
 
     private fun startGallery() {
@@ -115,32 +93,11 @@ class PredictFragment : Fragment() {
         }
     }
 
-    private fun startCameraX() {
-        val intent = Intent(requireActivity(), CameraxActivity::class.java)
-        launcherIntentCameraX.launch(intent)
-    }
-
-    private val launcherIntentCameraX = registerForActivityResult(
-        ActivityResultContracts.StartActivityForResult()
-    ) {
-        if (it.resultCode == CAMERAX_RESULT) {
-            currentImageUri = it.data?.getStringExtra(CameraxActivity.EXTRA_CAMERAX_IMAGE)?.toUri()
-            showImage()
-        }
-    }
-
     private fun showImage() {
         currentImageUri?.let {
             Log.d("Debug", "showImage: $it")
             binding.ivPreview.setImageURI(it)
         }
-    }
-
-    @RequiresApi(Build.VERSION_CODES.Q)
-    private fun analyzeStaticImage(uri: Uri) {
-        val intent = Intent(requireActivity(), ResultActivity::class.java)
-        intent.putExtra(ResultActivity.EXTRA_IMAGE_URI, uri.toString())
-        startActivity(intent)
     }
 
     @RequiresApi(Build.VERSION_CODES.Q)
@@ -159,7 +116,9 @@ class PredictFragment : Fragment() {
                             is Result.Success -> {
                                 result.data.message?.let { showToast(it) }
                                 showLoading(false)
-//                                startActivity(Intent(requireActivity(), MainActivity::class.java))
+                                // val intent = Intent(requireActivity(), ResultActivity::class.java)
+                                // intent.putExtra(ResultActivity.EXTRA_IMAGE_URI, uri.toString())
+                                // startActivity(intent)
                             }
 
                             is Result.Error -> {

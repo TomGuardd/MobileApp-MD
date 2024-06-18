@@ -8,17 +8,16 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.capstone.tomguard.databinding.FragmentDashboardBinding
-import com.capstone.tomguard.ui.PredictionViewModelFactory
 
 class DashboardFragment : Fragment() {
 
     private lateinit var binding: FragmentDashboardBinding
 
-    private val viewModel by viewModels<DashboardViewModel> {
-        PredictionViewModelFactory.getInstance(requireActivity().application)
-    }
+    //    private val viewModel by viewModels<DashboardViewModel> {
+    //        PredictionViewModelFactory.getInstance(requireActivity().application)
+    //    }
 
-    private lateinit var adapter: PredictionAdapter
+//    private lateinit var adapter: PredictionAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -30,15 +29,14 @@ class DashboardFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        adapter = PredictionAdapter()
-        binding.rvPredictions.layoutManager = LinearLayoutManager(context)
-        binding.rvPredictions.adapter = adapter
+//        adapter = PredictionAdapter()
+//        binding.rvPredictions.layoutManager = LinearLayoutManager(context)
+//        binding.rvPredictions.adapter = adapter
 
-        viewModel.getAllPredictions().observe(viewLifecycleOwner) { predictionList ->
-            if (predictionList != null) {
-                adapter.setListPredictions(predictionList)
-
-            }
-        }
+        //  viewModel.getAllPredictions().observe(viewLifecycleOwner) { predictionList ->
+        //    if (predictionList != null) {
+        //      adapter.setListPredictions(predictionList)
+        //    }
+        //  }
     }
 }

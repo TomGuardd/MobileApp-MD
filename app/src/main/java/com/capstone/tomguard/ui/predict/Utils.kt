@@ -1,4 +1,4 @@
-package com.capstone.tomguard.ui.predict.utils
+package com.capstone.tomguard.ui.predict
 
 import android.content.ContentValues
 import android.content.Context
@@ -54,7 +54,6 @@ private fun getImageUriForPreQ(context: Context): Uri {
     )
 }
 
-// --------------------------------------Unused methods-----------------------------------------
 
 // Convert URI to file
 fun uriToFile(imageUri: Uri, context: Context): File {
