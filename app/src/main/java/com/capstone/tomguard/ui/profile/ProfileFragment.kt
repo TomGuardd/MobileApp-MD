@@ -9,10 +9,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
+import com.capstone.tomguard.R
 import com.capstone.tomguard.databinding.FragmentProfileBinding
 import com.capstone.tomguard.ui.MainViewModelFactory
 import com.capstone.tomguard.ui.login.LoginActivity
 import com.capstone.tomguard.data.Result
+import com.capstone.tomguard.data.model.ProfileResponse
+import com.capstone.tomguard.data.model.User
 
 class ProfileFragment : Fragment() {
 
@@ -32,16 +35,11 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        getSession()
-    }
-
-    private fun getSession() {
         viewModel.getSession().observe(viewLifecycleOwner) { user ->
             if (!user.isLogin) {
                 startActivity(Intent(requireContext(), LoginActivity::class.java))
             } else {
                 getProfile(user.token)
-                Log.d("Debug", "getSession: ProfileFragment: token: ${user.token}")
             }
         }
     }
@@ -49,26 +47,31 @@ class ProfileFragment : Fragment() {
     private fun getProfile(token: String) {
         viewModel.getProfile(token).observe(viewLifecycleOwner) {
             when (it) {
-                is Result.Loading -> {
-                    showLoading(true)
-                    Log.d("Debug", "getProfile: ProfileFragment: isLoading: true")
-                }
+                is Result.Loading -> showLoading(true)
                 is Result.Success -> {
-                    val user = it.data
+                    val profile = it.data
+                    setProfileData(profile)
                     showLoading(false)
-                    binding.progressBar.visibility = View.VISIBLE
-                    with(binding) {
-                        tvUsername.text = user.name
-                        tvEmail.text = user.email
-                        Glide.with(this@ProfileFragment)
-                            .load(user.profilePictureUrl)
-                            .into(ivProfile)
-                    Log.d("Debug", "getProfile: ProfileFragment: isSuccess: true")
-                    }
                 }
-                is Result.Error -> showLoading(false)
-                else -> {showLoading(false)}
+                is Result.Error -> {
+                    showLoading(false)
+                    binding.ivProfile.setImageResource(R.drawable.ic_account_circle_grey_128)
+                }
+                null -> showLoading(false)
             }
+        }
+    }
+
+    private fun setProfileData(profile: ProfileResponse) {
+        Log.d("Debug", "setProfileData: ProfileFragment: profilePictureUrl: ${profile.profilePictureUrl}")
+        binding.apply {
+            Glide
+                .with(this@ProfileFragment)
+                .load(profile.profilePictureUrl)
+                .fitCenter()
+                .into(ivProfile)
+            tvUsername.text = profile.name
+            tvEmail.text = profile.email
         }
     }
 
