@@ -65,6 +65,7 @@ dependencies {
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
     implementation(libs.circleimageview)
+    implementation(libs.github.glide)
 
     implementation(libs.activity.ktx)
     implementation(libs.androidx.datastore.preferences)

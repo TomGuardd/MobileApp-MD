@@ -1,4 +1,4 @@
-package com.capstone.tomguard.data.api
+package com.capstone.tomguard.data.network
 
 import com.capstone.tomguard.BuildConfig
 import okhttp3.OkHttpClient

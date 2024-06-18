@@ -8,12 +8,13 @@ import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import com.capstone.tomguard.R
-import com.capstone.tomguard.data.database.Prediction
-import com.capstone.tomguard.data.helper.DateHelper
 import com.capstone.tomguard.databinding.ActivityResultBinding
 import com.capstone.tomguard.ui.main.MainActivity
 import com.capstone.tomguard.ui.predict.utils.ImageClassifierHelper
+import com.capstone.tomguard.ui.PredictionViewModelFactory
 import org.tensorflow.lite.task.vision.classifier.Classifications
 import java.text.NumberFormat
 
@@ -22,7 +23,7 @@ class ResultActivity : AppCompatActivity(), ImageClassifierHelper.ClassifierList
     private lateinit var binding: ActivityResultBinding
 
     private val viewModel by viewModels<ResultViewModel> {
-        ResultFactory.getInstance(application)
+        PredictionViewModelFactory.getInstance(application)
     }
 
     private lateinit var imageClassifierHelper: ImageClassifierHelper
@@ -32,6 +33,11 @@ class ResultActivity : AppCompatActivity(), ImageClassifierHelper.ClassifierList
         binding = ActivityResultBinding.inflate(layoutInflater)
         enableEdgeToEdge()
         setContentView(binding.root)
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            insets
+        }
         supportActionBar?.title = getString(R.string.title_prediction_result)
 
         initImageClassification()
@@ -46,7 +52,7 @@ class ResultActivity : AppCompatActivity(), ImageClassifierHelper.ClassifierList
         val imageUri = Uri.parse(intent.getStringExtra(EXTRA_IMAGE_URI))
         Log.d("Debug", "initImageClassification: imageUri $imageUri")
         imageUri?.let {
-            binding.ivResult.setImageURI(it)
+                 binding.ivResult.setImageURI(it)
 
             imageClassifierHelper = ImageClassifierHelper(
                 context = this,
@@ -80,13 +86,12 @@ class ResultActivity : AppCompatActivity(), ImageClassifierHelper.ClassifierList
     }
 
     private fun savePrediction() {
-        val prediction = Prediction(
-            imageUri = intent.getStringExtra(EXTRA_IMAGE_URI),
+        val imageUriString = intent.getStringExtra(EXTRA_IMAGE_URI)
+        viewModel.savePrediction(
             result = binding.tvResult.text.toString(),
             inferenceTime = binding.tvInference.text.toString().removeSuffix(" ms").toLong(),
-            date = DateHelper.getCurrentDate()
+            imageUriString = imageUriString
         )
-        viewModel.insert(prediction)
         Toast.makeText(this, "Prediction saved", Toast.LENGTH_SHORT).show()
         startActivity(Intent(this, MainActivity::class.java))
     }

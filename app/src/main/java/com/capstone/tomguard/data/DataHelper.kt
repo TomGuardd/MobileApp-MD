@@ -1,4 +1,4 @@
-package com.capstone.tomguard.data.helper
+package com.capstone.tomguard.data
 
 import java.text.SimpleDateFormat
 import java.util.Date
