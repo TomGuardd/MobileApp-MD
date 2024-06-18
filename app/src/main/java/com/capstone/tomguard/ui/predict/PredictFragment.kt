@@ -17,13 +17,31 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
+import androidx.fragment.app.viewModels
+import com.capstone.tomguard.data.Result
+import androidx.lifecycle.lifecycleScope
 import com.capstone.tomguard.R
+import com.capstone.tomguard.data.network.ApiConfig
 import com.capstone.tomguard.databinding.FragmentPredictBinding
+import com.capstone.tomguard.ui.MainViewModelFactory
+import com.capstone.tomguard.ui.main.MainActivity
 import com.capstone.tomguard.ui.predict.CameraxActivity.Companion.CAMERAX_RESULT
 import com.capstone.tomguard.ui.predict.utils.getImageUri
+import com.capstone.tomguard.ui.predict.utils.reduceFileImage
+import com.capstone.tomguard.ui.predict.utils.uriToFile
 import com.capstone.tomguard.ui.result.ResultActivity
+import com.google.gson.Gson
+import kotlinx.coroutines.launch
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.asRequestBody
+import retrofit2.HttpException
 
 class PredictFragment : Fragment() {
+
+    private val uploadViewModel by viewModels<UploadViewModel> {
+        MainViewModelFactory.getInstance(requireActivity())
+    }
 
     private lateinit var binding: FragmentPredictBinding
 
@@ -45,8 +63,7 @@ class PredictFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
+    ): View {
         binding = FragmentPredictBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -62,13 +79,12 @@ class PredictFragment : Fragment() {
         binding.layoutButton.galleryButton.setOnClickListener { startGallery() }
         binding.layoutButton.cameraButton.setOnClickListener { startCamera() }
         binding.layoutButton.cameraXButton.setOnClickListener { startCameraX() }
-        binding.btnPredict.setOnClickListener {
-            currentImageUri?.let {
-                analyzeStaticImage(it)
-            } ?: run {
-                showToast(getString(R.string.empty_image_warning))
-            }
-        }
+        binding.btnPredict.setOnClickListener { uploadImage() }
+//            currentImageUri?.let {
+//                analyzeStaticImage(it)
+//            } ?: run {
+//                showToast(getString(R.string.empty_image_warning))
+//            }
     }
 
     private fun startGallery() {
@@ -125,39 +141,46 @@ class PredictFragment : Fragment() {
         val intent = Intent(requireActivity(), ResultActivity::class.java)
         intent.putExtra(ResultActivity.EXTRA_IMAGE_URI, uri.toString())
         startActivity(intent)
-        //        val imageFile: File = uriToFile(uri, requireActivity())
-        //        imageFile.reduceFileImage()
-        //
-        //        imageClassifierHelper = ImageClassifierHelper(
-        //            context = requireActivity(),
-        //            classifierListener = this
-        //        )
-        //        imageClassifierHelper.classifyStaticImage(uri)
     }
 
-    //    override fun onError(error: String) {
-    //        showToast(error)
-    //    }
+    @RequiresApi(Build.VERSION_CODES.Q)
+    private fun uploadImage() {
+        currentImageUri?.let { uri ->
+            val imageFile = uriToFile(uri, requireActivity()).reduceFileImage()
 
-    //    override fun onResults(results: List<Classifications>?, inferenceTime: Long) {
-    //        results?.let {
-    //            showResults(it)
-    //        } ?: run {
-    //            showToast("No result found")
-    //        }
-    //    }
+            uploadViewModel.getSession().observe(requireActivity()) { user ->
+                val token = user.token
+                uploadViewModel.uploadStory(token, imageFile).observe(requireActivity()) { result ->
+                    if (result != null) {
+                        when (result) {
+                            is Result.Loading -> {
+                                showLoading(true)
+                            }
+                            is Result.Success -> {
+                                result.data.message?.let { showToast(it) }
+                                showLoading(false)
+//                                startActivity(Intent(requireActivity(), MainActivity::class.java))
+                            }
 
-    //    private fun showResults(results: List<Classifications>) {
-    //        val result = results[0]
-    //        val title = result.categories[0].label
-    //        val confidence = result.categories[0].score
-    //        val prediction = "$title: ${(confidence * 100).toInt()}%"
-    //
-    //        binding.resultText.text = prediction
-    //    }
+                            is Result.Error -> {
+                                showToast(result.error)
+                                showLoading(false)
+                            }
+                            else -> {}
+                        }
+                    }
+                }
+            }
+        } ?: showToast(getString(R.string.empty_image_warning))
+    }
+
 
     private fun showToast(message: String) {
         Toast.makeText(requireActivity(), message, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun showLoading(isLoading: Boolean) {
+        binding.progressIndicator.visibility = if (isLoading) View.VISIBLE else View.GONE
     }
 
     companion object {

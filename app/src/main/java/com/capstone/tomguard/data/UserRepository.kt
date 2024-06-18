@@ -7,9 +7,14 @@ import com.capstone.tomguard.data.model.UserModel
 import com.capstone.tomguard.data.local.datastore.UserPreference
 import com.capstone.tomguard.data.model.LoginResponse
 import com.capstone.tomguard.data.model.ProfileResponse
+import com.capstone.tomguard.data.model.UploadResponse
 import com.google.gson.Gson
 import kotlinx.coroutines.flow.Flow
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.asRequestBody
+import okhttp3.MediaType.Companion.toMediaType
 import retrofit2.HttpException
+import java.io.File
 
 class UserRepository private constructor(
 
@@ -56,6 +61,25 @@ class UserRepository private constructor(
         } catch (e: HttpException) {
             val errorBody = e.response()?.errorBody()?.string()
             val errorResponse = Gson().fromJson(errorBody, ProfileResponse::class.java)
+            emit(errorResponse.message?.let { Result.Error(it) })
+        }
+    }
+
+    fun uploadImage(token: String, imageFile: File) = liveData {
+        emit(Result.Loading)
+        val requestImageFile = imageFile.asRequestBody("image/jpeg".toMediaType())
+        val multipartBody = MultipartBody.Part.createFormData(
+            "picture",
+            imageFile.name,
+            requestImageFile
+        )
+        try {
+            val successResponse =
+                apiService.uploadImage("Bearer $token", multipartBody)
+            emit(Result.Success(successResponse))
+        } catch (e: HttpException) {
+            val errorBody = e.response()?.errorBody()?.string()
+            val errorResponse = Gson().fromJson(errorBody, UploadResponse::class.java)
             emit(errorResponse.message?.let { Result.Error(it) })
         }
     }

@@ -7,6 +7,7 @@ import com.capstone.tomguard.data.UserRepository
 import com.capstone.tomguard.di.Injection
 import com.capstone.tomguard.ui.login.LoginViewModel
 import com.capstone.tomguard.ui.main.MainViewModel
+import com.capstone.tomguard.ui.predict.UploadViewModel
 import com.capstone.tomguard.ui.profile.ProfileViewModel
 
 class MainViewModelFactory(
@@ -39,6 +40,9 @@ class MainViewModelFactory(
             }
             modelClass.isAssignableFrom(ProfileViewModel::class.java) -> {
                 ProfileViewModel(userRepository) as T
+            }
+            modelClass.isAssignableFrom(UploadViewModel::class.java) -> {
+                UploadViewModel(userRepository) as T
             }
             else -> throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
         }
