@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package com.capstone.tomguard.ui.profile
 
 import android.app.LocaleManager
@@ -39,7 +41,7 @@ class ProfileFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentProfileBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -50,6 +52,7 @@ class ProfileFragment : Fragment() {
         profileViewModel.getSession().observe(viewLifecycleOwner) { user ->
             if (!user.isLogin) {
                 startActivity(Intent(requireContext(), LoginActivity::class.java))
+                requireActivity().finish()
             } else {
                 getProfile(user.token)
             }
@@ -136,8 +139,7 @@ class ProfileFragment : Fragment() {
             "setProfileData: ProfileFragment: profilePictureUrl: ${profile.profilePictureUrl}"
         )
         binding.apply {
-            Glide
-                .with(this@ProfileFragment)
+            Glide.with(this@ProfileFragment)
                 .load(profile.profilePictureUrl)
                 .fitCenter()
                 .into(ivProfile)
@@ -162,10 +164,10 @@ class ProfileFragment : Fragment() {
             setMessage(getString(R.string.logout_message))
             setPositiveButton(R.string.yes) { _, _ ->
                 profileViewModel.logout()
+                startActivity(Intent(requireContext(), LoginActivity::class.java))
+                requireActivity().finish()
             }
-            setNegativeButton(R.string.no) { _, _ ->
-
-            }
+            setNegativeButton(R.string.no) { _, _ -> }
             create()
             show()
         }
@@ -173,5 +175,6 @@ class ProfileFragment : Fragment() {
 
     private fun showLoading(isLoading: Boolean) {
         binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+        binding.root.isEnabled = !isLoading
     }
 }
