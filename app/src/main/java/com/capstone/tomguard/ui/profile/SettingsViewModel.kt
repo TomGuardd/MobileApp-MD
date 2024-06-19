@@ -18,4 +18,12 @@ class SettingsViewModel(private val settingPref: SettingPreference): ViewModel()
             settingPref.saveThemeSetting(isDarkModeActive)
         }
     }
+
+    fun getLocaleSetting(): LiveData<String> = settingPref.getLocaleSetting().asLiveData()
+
+    fun saveLocaleSetting(localeName: String) {
+        viewModelScope.launch {
+            settingPref.saveLocaleSetting(localeName)
+        }
+    }
 }

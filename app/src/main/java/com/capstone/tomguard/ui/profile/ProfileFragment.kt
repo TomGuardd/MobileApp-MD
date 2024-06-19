@@ -1,14 +1,20 @@
 package com.capstone.tomguard.ui.profile
 
+import android.app.LocaleManager
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import android.os.LocaleList
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.CompoundButton
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.os.LocaleListCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
@@ -55,6 +61,9 @@ class ProfileFragment : Fragment() {
             requireActivity(),
             SettingsViewModelFactory(settingPref))[SettingsViewModel::class.java]
 
+        val language: Array<String> = resources.getStringArray(R.array.language_array)
+        val languageArrayAdapter = ArrayAdapter(requireContext(), R.layout.layout_dropdown_language, language)
+
         settingsViewModel.getThemeSettings().observe(viewLifecycleOwner) { isDarkModeActive: Boolean ->
             if (isDarkModeActive) {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
@@ -63,6 +72,35 @@ class ProfileFragment : Fragment() {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
                 binding.includedDarkmodeSetting.switch1.isChecked = false
             }
+        }
+
+        settingsViewModel.getLocaleSetting().observe(viewLifecycleOwner){
+            if (it == "in"){
+                binding.includedLanguageSetting.spLanguage.setSelection(languageArrayAdapter.getPosition(language[1]))
+            } else {
+                binding.includedLanguageSetting.spLanguage.setSelection(languageArrayAdapter.getPosition(language[0]))
+            }
+        }
+
+        binding.includedLanguageSetting.spLanguage.apply {
+            onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    if (parent?.getItemAtPosition(position).toString() == language[1]) {
+                        setLocale("in", settingsViewModel)
+                    } else {
+                        setLocale("en", settingsViewModel)
+                    }
+                }
+
+                override fun onNothingSelected(parent: AdapterView<*>?) {
+                }
+            }
+            adapter = languageArrayAdapter
         }
 
         binding.includedDarkmodeSetting.switch1.setOnCheckedChangeListener { _: CompoundButton?, isChecked: Boolean ->
@@ -105,6 +143,16 @@ class ProfileFragment : Fragment() {
                 .into(ivProfile)
             tvUsername.text = profile.name
             tvEmail.text = profile.email
+        }
+    }
+
+    private fun setLocale(localeCode: String, settingViewModel: SettingsViewModel) {
+        settingViewModel.saveLocaleSetting(localeCode)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            requireActivity().getSystemService(LocaleManager::class.java).applicationLocales =
+                LocaleList.forLanguageTags(localeCode)
+        } else {
+            AppCompatDelegate.setApplicationLocales(LocaleListCompat.forLanguageTags(localeCode))
         }
     }
 

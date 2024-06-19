@@ -59,8 +59,6 @@ class UserPreference private constructor(private val dataStore: DataStore<Prefer
 
 class SettingPreference private constructor(private val dataStore: DataStore<Preferences>) {
 
-    private val THEME_SETTING = booleanPreferencesKey("theme_setting")
-
     fun getThemeSetting(): Flow<Boolean> {
         return dataStore.data.map { preferences ->
             preferences[THEME_SETTING] ?: false
@@ -73,9 +71,24 @@ class SettingPreference private constructor(private val dataStore: DataStore<Pre
         }
     }
 
+    fun getLocaleSetting(): Flow<String>{
+        return dataStore.data.map {
+            it[LOCALE_KEY] ?: "en"
+        }
+    }
+
+    suspend fun saveLocaleSetting(localeName: String){
+        dataStore.edit {
+            it[LOCALE_KEY] = localeName
+        }
+    }
+
     companion object {
         @Volatile
         private var INSTANCE: SettingPreference? = null
+
+        private val THEME_SETTING = booleanPreferencesKey("theme_setting" )
+        private val LOCALE_KEY = stringPreferencesKey("locale_setting")
 
         fun getInstance(dataStore: DataStore<Preferences>): SettingPreference {
             return INSTANCE ?: synchronized(this) {
