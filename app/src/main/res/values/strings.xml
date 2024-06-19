@@ -59,7 +59,7 @@
     <string name="change_username">Edit username</string>
     <string name="change_username_desc">Change your username</string>
     <string name="change_picture">Edit profile picture</string>
-    <string name="change_password">Reset password</string>
+    <string name="change_password">Change password</string>
     <string name="account_setting">Account settings</string>
     <string name="application_setting">Application settings</string>
     <string name="username">username</string>

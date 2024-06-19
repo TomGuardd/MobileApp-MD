@@ -56,3 +56,33 @@ class UserPreference private constructor(private val dataStore: DataStore<Prefer
         }
     }
 }
+
+class SettingPreference private constructor(private val dataStore: DataStore<Preferences>) {
+
+    private val THEME_SETTING = booleanPreferencesKey("theme_setting")
+
+    fun getThemeSetting(): Flow<Boolean> {
+        return dataStore.data.map { preferences ->
+            preferences[THEME_SETTING] ?: false
+        }
+    }
+
+    suspend fun saveThemeSetting(isDarkTheme: Boolean) {
+        dataStore.edit { preferences ->
+            preferences[THEME_SETTING] = isDarkTheme
+        }
+    }
+
+    companion object {
+        @Volatile
+        private var INSTANCE: SettingPreference? = null
+
+        fun getInstance(dataStore: DataStore<Preferences>): SettingPreference {
+            return INSTANCE ?: synchronized(this) {
+                val instance = SettingPreference(dataStore)
+                INSTANCE = instance
+                instance
+            }
+        }
+    }
+}
