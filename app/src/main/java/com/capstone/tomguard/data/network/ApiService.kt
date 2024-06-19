@@ -1,5 +1,6 @@
 package com.capstone.tomguard.data.network
 
+import com.capstone.tomguard.data.model.HistoryResponse
 import com.capstone.tomguard.data.model.LoginResponse
 import com.capstone.tomguard.data.model.ProfileResponse
 import com.capstone.tomguard.data.model.UploadResponse
@@ -32,4 +33,9 @@ interface ApiService {
         @Header("Authorization") token: String,
         @Part file: MultipartBody.Part
     ): UploadResponse
+
+    @GET("history")
+    suspend fun getHistories(
+        @Header("Authorization") token: String
+    ): HistoryResponse
 }

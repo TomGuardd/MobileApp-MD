@@ -41,7 +41,7 @@
     <string name="name_hint">Nama</string>
     <string name="result_label">Hasil :</string>
     <string name="inference">Waktu Inferensi :</string>
-    <string name="dummy_result">Early Blight 70%</string>
+    <string name="dummy_result">Early Blight</string>
     <string name="inference_label">Waktu Inferensi :</string>
     <string name="dummy_inference">65 ms</string>
     <string name="save">Simpan</string>
@@ -66,6 +66,7 @@
     <string name="username">nama pengguna</string>
     <string name="blank_username">nama pengguna</string>
     <string name="blank_email">email</string>
+    <string name="dummy_percentage">70%</string>
     <string-array name="language_array">
         <item>Inggris</item>
         <item>Indonesia</item>
