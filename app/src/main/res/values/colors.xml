@@ -10,4 +10,5 @@
     <color name="hint_text_white">@color/white</color>
     <color name="helper_text_white">@color/white</color>
     <color name="glow_color">#FCE29A</color>
+    <color name="url_blue">#0563c1</color>
 </resources>

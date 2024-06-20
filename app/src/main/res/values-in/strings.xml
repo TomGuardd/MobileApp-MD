@@ -65,9 +65,15 @@
     <string name="application_setting">Pengaturan Aplikasi</string>
     <string name="username">nama pengguna</string>
     <string name="blank_username">nama pengguna</string>
+    <string name="title_welcome_page">Selamat Datang di TomGuard</string>
     <string name="blank_email">email</string>
     <string name="dummy_percentage">70%</string>
     <string name="title_detail">Detail</string>
+    <string name="recomendation_label">Rekomendasi :</string>
+    <string name="predicted_as">Terprediksi :</string>/>
+    <string name="related_article_label">Artikel Terkait :</string>
+    <string name="dummy_article_content">Bacterial Spot of Pepper and Tomato</string>
+    <string name="dummy_article_url">https://content.ces.ncsu.edu/bacterial-spot-of-pepper-and-tomato</string>
     <string-array name="language_array">
         <item>Inggris</item>
         <item>Indonesia</item>

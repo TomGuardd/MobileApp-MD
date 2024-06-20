@@ -36,19 +36,57 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:src="@tools:sample/backgrounds/scenic" />
 
+
         <TextView
-            android:id="@+id/tv_item_result_detail"
+            android:id="@+id/tv_item_date_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="4dp"
+            android:gravity="start"
+            android:text="@string/predicted_date_label"
+            android:textSize="13sp"
+            app:layout_constraintEnd_toStartOf="@id/tv_item_date"
+            app:layout_constraintTop_toBottomOf="@id/img_item_photo_detail" />
+
+        <TextView
+            android:id="@+id/tv_item_date"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="14dp"
+            android:gravity="start"
+            android:text="@string/dummy_date"
+            android:textSize="13sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/img_item_photo_detail" />
+
+        <TextView
+            android:id="@+id/tv_predicted_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:maxLines="1"
+            android:text="@string/predicted_as"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_item_date" />
+
+        <TextView
+            android:id="@+id/tv_disease_result"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
             android:maxLines="1"
             android:textSize="20sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/tv_item_description_detail"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/img_item_photo_detail"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_predicted_label"
+            app:layout_constraintStart_toEndOf="@id/tv_predicted_label"
+            app:layout_constraintTop_toTopOf="@id/tv_predicted_label"
+            app:layout_constraintVertical_bias="1.0"
             tools:text="@string/dummy_result" />
 
         <TextView
@@ -61,23 +99,11 @@
             android:maxLines="1"
             android:textSize="20sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@+id/tv_item_result_detail"
-            app:layout_constraintStart_toEndOf="@id/tv_item_result_detail"
-            app:layout_constraintTop_toTopOf="@+id/tv_item_result_detail"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_disease_result"
+            app:layout_constraintStart_toEndOf="@id/tv_disease_result"
+            app:layout_constraintTop_toTopOf="@+id/tv_disease_result"
             app:layout_constraintVertical_bias="1.0"
             tools:text="@string/dummy_percentage" />
-
-        <TextView
-            android:id="@+id/tv_item_date"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="14dp"
-            android:gravity="start"
-            android:text="@string/dummy_date"
-            android:textSize="12sp"
-            app:layout_constraintBottom_toTopOf="@+id/tv_item_description_detail"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/img_item_photo_detail" />
 
         <TextView
             android:id="@+id/tv_item_description_detail"
@@ -88,11 +114,90 @@
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
             android:textSize="15sp"
+            app:layout_constraintBottom_toTopOf="@id/tv_item_recomendation_label"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_disease_result"
+            tools:text="@tools:sample/lorem/random" />
+
+        <TextView
+            android:id="@+id/tv_item_recomendation_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:maxLines="1"
+            android:text="@string/recomendation_label"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_item_description_detail" />
+
+        <TextView
+            android:id="@+id/tv_item_recomendation"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="6dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:maxLines="20"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toTopOf="@id/tv_related_article_label"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_item_recomendation_label"
+            tools:text="@tools:sample/lorem/random" />
+
+        <TextView
+            android:id="@+id/tv_related_article_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:maxLines="1"
+            android:text="@string/related_article_label"
+            android:textAlignment="textStart"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_item_recomendation" />
+
+        <TextView
+            android:id="@+id/tv_related_article_content"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="6dp"
+            android:layout_marginEnd="16dp"
+            android:maxLines="20"
+            android:text="@string/dummy_article_content"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toTopOf="@id/tv_related_article_url"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_related_article_label"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <TextView
+            android:id="@+id/tv_related_article_url"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="32dp"
+            android:autoLink="web"
+            android:maxLines="20"
+            android:text="@string/dummy_article_url"
+            android:textColor="@color/url_blue"
+            android:textSize="15sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_item_result_detail"
-            tools:text="@tools:sample/lorem/random" />
+            app:layout_constraintTop_toBottomOf="@id/tv_related_article_content" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

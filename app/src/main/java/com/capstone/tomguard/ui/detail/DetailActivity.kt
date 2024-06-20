@@ -48,7 +48,7 @@ class DetailActivity : AppCompatActivity() {
                 .load(detailHistory.imageUrl)
                 .placeholder(R.drawable.ic_place_holder)
                 .into(imgItemPhotoDetail)
-            tvItemResultDetail.text = detailHistory.disease.name
+            tvDiseaseResult.text = detailHistory.disease.name
             tvItemPercentageDetail.text = "${detailHistory.confidenceLevel}%"
             tvItemDescriptionDetail.text = detailHistory.disease.description
 
@@ -59,6 +59,8 @@ class DetailActivity : AppCompatActivity() {
             val formattedDate = targetFormat.format(date)
 
             tvItemDate.text = formattedDate
+
+            tvItemRecomendation.text = detailHistory.disease.recommendations.toString()
         }
     }
 }

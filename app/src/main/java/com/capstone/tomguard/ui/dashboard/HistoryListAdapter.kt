@@ -40,7 +40,7 @@ class HistoryListAdapter :
                     .load(item.imageUrl)
                     .placeholder(R.drawable.ic_place_holder)
                     .into(ivItemPhoto)
-                tvItemResult.text = item.disease.name
+                tvDiseaseResult.text = item.disease.name
                 tvItemPercentage.text = "${item.confidenceLevel}%"
                 tvItemDesc.text = item.disease.description
 
@@ -61,7 +61,7 @@ class HistoryListAdapter :
                         ActivityOptionsCompat.makeSceneTransitionAnimation(
                             itemView.context as Activity,
                             Pair(binding.ivItemPhoto, "prediction_image"),
-                            Pair(binding.tvItemResult, "result"),
+                            Pair(binding.tvDiseaseResult, "result"),
                             Pair(binding.tvItemPercentage, "percentage"),
                             Pair(binding.tvItemDate, "date"),
                             Pair(binding.tvItemDesc, "description")
