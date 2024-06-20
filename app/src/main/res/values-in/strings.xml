@@ -67,6 +67,7 @@
     <string name="blank_username">nama pengguna</string>
     <string name="blank_email">email</string>
     <string name="dummy_percentage">70%</string>
+    <string name="title_detail">Detail</string>
     <string-array name="language_array">
         <item>Inggris</item>
         <item>Indonesia</item>

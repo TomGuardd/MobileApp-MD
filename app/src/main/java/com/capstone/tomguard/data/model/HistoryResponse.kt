@@ -1,7 +1,10 @@
 package com.capstone.tomguard.data.model
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class HistoryResponse(
 
     @field:SerializedName("data")
@@ -9,8 +12,9 @@ data class HistoryResponse(
 
     @field:SerializedName("message")
     val message: String
-)
+) : Parcelable
 
+@Parcelize
 data class HistoryData(
 
     @field:SerializedName("totalItems")
@@ -24,12 +28,14 @@ data class HistoryData(
 
     @field:SerializedName("detections")
     val detections: List<DetectionsItem>
-)
+) : Parcelable
 
+
+@Parcelize
 data class DetectionsItem(
 
     @field:SerializedName("confidenceLevel")
-    val confidenceLevel: Any,
+    val confidenceLevel: Float,
 
     @field:SerializedName("imageId")
     val imageId: String,
@@ -45,8 +51,9 @@ data class DetectionsItem(
 
     @field:SerializedName("actionRequired")
     val actionRequired: Boolean
-)
+) : Parcelable
 
+@Parcelize
 data class Disease(
 
     @field:SerializedName("name")
@@ -60,8 +67,9 @@ data class Disease(
 
     @field:SerializedName("articles")
     val articles: List<HistoryArticlesItem>
-)
+) : Parcelable
 
+@Parcelize
 data class HistoryArticlesItem(
 
     @field:SerializedName("thumbnail")
@@ -72,4 +80,4 @@ data class HistoryArticlesItem(
 
     @field:SerializedName("url")
     val url: String
-)
+) : Parcelable

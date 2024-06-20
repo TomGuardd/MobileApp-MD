@@ -33,7 +33,9 @@ class DashboardFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        adapter = HistoryListAdapter()
         binding.rvPredictions.layoutManager = LinearLayoutManager(context)
+        binding.rvPredictions.adapter = adapter
 
         viewModel.getSession().observe(requireActivity()) { user ->
             if (!user.isLogin) {
@@ -53,8 +55,7 @@ class DashboardFragment : Fragment() {
 
                 is Result.Success -> {
                     showLoading(false)
-                    adapter = HistoryListAdapter(it.data)
-                    binding.rvPredictions.adapter = adapter
+                    adapter.submitList(it.data)
                 }
             }
         }
