@@ -1,14 +1,18 @@
 package com.capstone.tomguard.data
 
 import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
 import com.capstone.tomguard.data.network.ApiService
 import com.capstone.tomguard.data.model.UserModel
 import com.capstone.tomguard.data.datastore.UserPreference
+import com.capstone.tomguard.data.model.DetectionsItem
+import com.capstone.tomguard.data.model.HistoryResponse
 import com.capstone.tomguard.data.model.LoginResponse
 import com.capstone.tomguard.data.model.ProfileResponse
 import com.capstone.tomguard.data.model.UploadResponse
 import com.google.gson.Gson
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
@@ -56,7 +60,7 @@ class UserRepository private constructor(
         emit(Result.Loading)
         try {
             val successResponse = apiService.getProfile("Bearer $token")
-            Log.d("Debug", "UserRepository token : $token" )
+            Log.d("Debug", "UserRepository token : $token")
             emit(Result.Success(successResponse))
         } catch (e: HttpException) {
             val errorBody = e.response()?.errorBody()?.string()
@@ -83,6 +87,18 @@ class UserRepository private constructor(
             emit(errorResponse.message?.let { Result.Error(it) })
         }
     }
+
+    fun getHistories(token: String): LiveData<Result<List<DetectionsItem>>> =
+        liveData(Dispatchers.IO) {
+            emit(Result.Loading)
+            try {
+                val successResponse: HistoryResponse = apiService.getHistories("Bearer $token")
+                val storyList = successResponse.data.detections
+                emit(Result.Success(storyList))
+            } catch (e: Exception) {
+                emit(Result.Error(e.message.toString()))
+            }
+        }
 
     companion object {
         @Volatile

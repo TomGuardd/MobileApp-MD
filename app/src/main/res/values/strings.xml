@@ -39,7 +39,7 @@
     <string name="name_hint">Name</string>
     <string name="result_label">Result :</string>
     <string name="inference">Inference time :</string>
-    <string name="dummy_result">Early Blight 70%</string>
+    <string name="dummy_result">Early Blight</string>
     <string name="inference_label">Inference time :</string>
     <string name="dummy_inference">65 ms</string>
     <string name="save">Save</string>
@@ -66,7 +66,10 @@
     <string name="blank_username">username</string>
     <string name="blank_email">email</string>
     <string name="language">Language</string>
-    <string name="title_welcome_page">Welcom to TomGuard</string>
+    <string name="title_welcome_page">Welcome to TomGuard</string>
+    <string name="dummy_percentage">70%</string>
+    <string name="dummy_desc" translatable="false">Bacterial spot, caused by four Xanthomonas species, affects tomatoes and peppers worldwide, leading to leaf and fruit spots, defoliation, sun-scalded fruit, and yield loss. The disease thrives in temperatures of 75 to 86 ℉ and high precipitation, with varying prevalence based on weather conditions. In North Carolina, it is more common during wet seasons. On tomatoes, leaf lesions are initially water-soaked with a yellow halo, becoming dark brown to black and circular, rarely exceeding 3 mm in diameter. Pepper leaves drop prematurely, exposing fruit to sunscald. Fruit lesions start as small blisters, turning dark brown and scab-like. Bacterial spot can be confused with other diseases but can be identified by bacterial streaming under a light microscope</string>
+    <string name="title_detail">Detail</string>
     <string-array name="language_array">
         <item>English</item>
         <item>Indonesia</item>

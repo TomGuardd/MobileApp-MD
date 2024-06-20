@@ -5,13 +5,13 @@ import com.google.gson.annotations.SerializedName
 data class UploadResponse(
 
 	@field:SerializedName("data")
-	val data: Data? = null,
+	val data: UploadData? = null,
 
 	@field:SerializedName("message")
 	val message: String? = null
 )
 
-data class ArticlesItem(
+data class UploadArticlesItem(
 
 	@field:SerializedName("thumbnail")
 	val thumbnail: String? = null,
@@ -23,7 +23,7 @@ data class ArticlesItem(
 	val url: String? = null
 )
 
-data class Data(
+data class UploadData(
 
 	@field:SerializedName("condition")
 	val condition: String? = null,
@@ -41,5 +41,5 @@ data class Data(
 	val recommendations: List<String?>? = null,
 
 	@field:SerializedName("articles")
-	val articles: List<ArticlesItem?>? = null
+	val articles: List<UploadArticlesItem?>? = null
 )

@@ -1,5 +1,6 @@
 package com.capstone.tomguard.ui.dashboard
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -8,16 +9,19 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.capstone.tomguard.databinding.FragmentDashboardBinding
+import com.capstone.tomguard.ui.MainViewModelFactory
+import com.capstone.tomguard.ui.main.MainViewModel
+import com.capstone.tomguard.data.Result
+import com.capstone.tomguard.ui.login.LoginActivity
 
 class DashboardFragment : Fragment() {
 
+    private val viewModel by viewModels<MainViewModel> {
+        MainViewModelFactory.getInstance(requireActivity().application)
+    }
     private lateinit var binding: FragmentDashboardBinding
 
-    //    private val viewModel by viewModels<DashboardViewModel> {
-    //        PredictionViewModelFactory.getInstance(requireActivity().application)
-    //    }
-
-//    private lateinit var adapter: PredictionAdapter
+    private lateinit var adapter: HistoryListAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -29,14 +33,36 @@ class DashboardFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-//        adapter = PredictionAdapter()
-//        binding.rvPredictions.layoutManager = LinearLayoutManager(context)
-//        binding.rvPredictions.adapter = adapter
+        adapter = HistoryListAdapter()
+        binding.rvPredictions.layoutManager = LinearLayoutManager(context)
+        binding.rvPredictions.adapter = adapter
 
-        //  viewModel.getAllPredictions().observe(viewLifecycleOwner) { predictionList ->
-        //    if (predictionList != null) {
-        //      adapter.setListPredictions(predictionList)
-        //    }
-        //  }
+        viewModel.getSession().observe(requireActivity()) { user ->
+            if (!user.isLogin) {
+                startActivity(Intent(requireActivity(), LoginActivity::class.java))
+                requireActivity().finish()
+            } else {
+                viewModel.getHistories(user.token)
+            }
+        }
+
+        viewModel.historyList.observe(requireActivity()) {
+            when (it) {
+                is Result.Loading -> showLoading(true)
+                is Result.Error -> {
+                    showLoading(false)
+                }
+
+                is Result.Success -> {
+                    showLoading(false)
+                    adapter.submitList(it.data)
+                }
+            }
+        }
+    }
+
+
+    private fun showLoading(isLoading: Boolean) {
+        binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
     }
 }

@@ -30,6 +30,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         enableEdgeToEdge()
         setContentView(binding.root)
+        supportActionBar?.hide()
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
@@ -70,18 +71,4 @@ class MainActivity : AppCompatActivity() {
         }
         supportActionBar?.hide()
     }
-
-//    private fun restoreUriPermission() {
-//        val sharedPref = getSharedPreferences("app_prefs", MODE_PRIVATE)
-//        val uriString = sharedPref.getString("persisted_uri", null)
-//        val flags = sharedPref.getInt("persisted_uri_flags", 0)
-//        uriString?.let {
-//            val uri = Uri.parse(it)
-//            try {
-//                contentResolver.takePersistableUriPermission(uri, flags)
-//            } catch (e: SecurityException) {
-//                e.printStackTrace()
-//            }
-//        }
-//    }
 }
