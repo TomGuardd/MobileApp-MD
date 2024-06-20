@@ -40,7 +40,6 @@ class MainActivity : AppCompatActivity() {
         setupBottomNavigation()
         getSession()
         setupView()
-//        restoreUriPermission()
     }
 
     private fun setupBottomNavigation() {

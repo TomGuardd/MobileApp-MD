@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/splashscreen"
+    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/img_icon_bg"
@@ -22,14 +22,14 @@
 
     <ImageView
         android:id="@+id/images"
-        android:layout_width="159dp"
-        android:layout_height="182dp"
+        android:layout_width="126dp"
+        android:layout_height="130dp"
         android:src="@drawable/ic_tomguard"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.448" />
+        app:layout_constraintVertical_bias="0.428" />
 
     <TextView
         android:id="@+id/txt2"
@@ -38,14 +38,14 @@
         android:fontFamily="@font/lato_bold"
         android:gravity="center"
         android:shadowColor="@color/black"
-        android:text="TomGuard"
+        android:text="@string/app_name"
         android:textColor="@color/white"
-        android:textSize="40sp"
+        android:textSize="38sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.56"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.623" />
+        app:layout_constraintVertical_bias="0.595" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
