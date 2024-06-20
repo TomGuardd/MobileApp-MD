@@ -1,17 +1,17 @@
+@file:Suppress("DEPRECATION")
+
 package com.capstone.tomguard.ui.welcome
 
+import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import androidx.activity.enableEdgeToEdge
+import android.view.View
+import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import com.capstone.tomguard.R
 import com.capstone.tomguard.databinding.ActivitySplashBinding
-import com.capstone.tomguard.ui.main.MainActivity
 
 @SuppressLint("CustomSplashScreen")
 class SplashActivity : AppCompatActivity() {
@@ -20,28 +20,33 @@ class SplashActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         binding = ActivitySplashBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
 
+        playAnimation()
+    }
+
+    private fun playAnimation() {
+        val startY = binding.images.translationY
+        val endY = startY + 100f
+
+        val animator =
+            ObjectAnimator.ofFloat(binding.images, View.TRANSLATION_Y, startY, endY).apply {
+                duration = 3000
+                repeatCount = ObjectAnimator.INFINITE
+                repeatMode = ObjectAnimator.REVERSE
+                interpolator = AccelerateDecelerateInterpolator()
+            }
+
+
+        animator.start()
+
+        val splashScreenTime = 3000L
         Handler(Looper.getMainLooper()).postDelayed({
-            goToMainActivity()
-        }, SPLASH_DELAY)
-    }
-
-    private fun goToMainActivity() {
-        Intent(this, MainActivity::class.java).also {
-            startActivity(it)
+            val intent = Intent(this@SplashActivity, WelcomeActivity::class.java)
+            startActivity(intent)
             finish()
-        }
-    }
-
-    private companion object {
-        private const val SPLASH_DELAY = 2500L
+            overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right)
+        }, splashScreenTime)
     }
 }

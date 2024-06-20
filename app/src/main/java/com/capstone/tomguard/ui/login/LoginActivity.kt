@@ -74,7 +74,7 @@ class LoginActivity : AppCompatActivity() {
                         is Result.Success -> {
                             showLoading(false)
                             val loginResponse = result.data
-                            // refers to LoginResponse object returned from API when it successful
+
                             showToast(loginResponse.message)
 
                             val userModel = UserModel(

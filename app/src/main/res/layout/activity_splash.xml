@@ -3,89 +3,49 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
+    android:id="@+id/splashscreen"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_spalsh"
+    android:background="@drawable/img_icon_bg"
     tools:context=".ui.welcome.SplashActivity">
 
-    <ProgressBar
-        style="?android:attr/progressBarStyle"
+    <ImageView
+        android:id="@+id/imageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:indeterminate="true"
-        android:indeterminateTint="@color/white"
+        android:src="@drawable/img_icon_bg"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.85" />
+        app:layout_constraintVertical_bias="0.3" />
 
     <ImageView
-        android:id="@+id/img_1"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:src="@drawable/img_splash_1"
-        app:layout_constraintBottom_toBottomOf="@id/guide_horizon_2"
+        android:id="@+id/images"
+        android:layout_width="159dp"
+        android:layout_height="182dp"
+        android:src="@drawable/ic_tomguard"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/guide_horizon_1"
-        app:layout_constraintVertical_bias="0.0"
-        tools:ignore="ContentDescription" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.448" />
 
     <TextView
-        android:id="@+id/txt_s1"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:id="@+id/txt2"
+        android:layout_width="238dp"
+        android:layout_height="61dp"
         android:fontFamily="@font/lato_bold"
         android:gravity="center"
-        android:text="@string/splash_message"
+        android:shadowColor="@color/black"
+        android:text="TomGuard"
         android:textColor="@color/white"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toEndOf="@id/img_1"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@id/img_1"
-        app:layout_constraintTop_toBottomOf="@id/guide_horizon_2" />
-
-    <ImageView
-        android:id="@+id/slide"
-        android:layout_width="30dp"
-        android:layout_height="20dp"
-        android:layout_marginTop="536dp"
-        android:src="@drawable/img_splash_slide"
+        android:textSize="40sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.56"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
-        tools:ignore="ContentDescription" />
-
-    <ImageView
-        android:id="@+id/next_button"
-        android:layout_width="20dp"
-        android:layout_height="30dp"
-        android:contentDescription="@string/next"
-        android:src="@drawable/img_splash_next"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.88"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/slide"
-        app:layout_constraintVertical_bias="0.537" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guide_horizon_1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_begin="100dp" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guide_horizon_2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_begin="350dp" />
+        app:layout_constraintVertical_bias="0.623" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
