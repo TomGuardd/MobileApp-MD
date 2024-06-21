@@ -13,14 +13,9 @@ object ApiConfig {
         } else {
             HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.NONE)
         }
-        val client = OkHttpClient.Builder()
-            .addInterceptor(loggingInterceptor)
-            .build()
-        val retrofit = Retrofit.Builder()
-            .baseUrl(BuildConfig.BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .client(client)
-            .build()
+        val client = OkHttpClient.Builder().addInterceptor(loggingInterceptor).build()
+        val retrofit = Retrofit.Builder().baseUrl(BuildConfig.BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create()).client(client).build()
         return retrofit.create(ApiService::class.java)
     }
 }

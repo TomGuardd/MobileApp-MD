@@ -8,6 +8,7 @@ import com.capstone.tomguard.data.datastore.UserPreference
 import com.capstone.tomguard.data.model.LoginResponse
 import com.capstone.tomguard.data.model.ProfileResponse
 import com.capstone.tomguard.data.model.UploadResponse
+import com.capstone.tomguard.data.model.UserResponse
 import com.google.gson.Gson
 import kotlinx.coroutines.flow.Flow
 import okhttp3.MultipartBody
@@ -16,11 +17,7 @@ import okhttp3.MediaType.Companion.toMediaType
 import retrofit2.HttpException
 import java.io.File
 
-class UserRepository private constructor(
-
-    private val apiService: ApiService,
-    private val userPreference: UserPreference
-) {
+class UserRepository(private val apiService: ApiService, private val userPreference: UserPreference) {
 
     fun getSession(): Flow<UserModel> {
         return userPreference.getSession()
@@ -52,11 +49,25 @@ class UserRepository private constructor(
         }
     }
 
+    fun register(name: String, email: String, password: String) = liveData {
+        emit(Result.Loading)
+        try {
+            val successResponse: UserResponse = apiService.registerUser(name, email, password)
+            emit(Result.Success(successResponse))
+        } catch (e: HttpException) {
+            val errorBody = e.response()?.errorBody()?.string()
+            val errorResponse = Gson().fromJson(errorBody, UserResponse::class.java)
+            emit(Result.Error(errorResponse.message))
+        } catch (e: Exception) {
+            emit(Result.Error(e.message ?: "Unknown error"))
+        }
+    }
+
     fun getProfile(token: String) = liveData {
         emit(Result.Loading)
         try {
             val successResponse = apiService.getProfile("Bearer $token")
-            Log.d("Debug", "UserRepository token : $token" )
+            Log.d("Debug", "UserRepository token : $token")
             emit(Result.Success(successResponse))
         } catch (e: HttpException) {
             val errorBody = e.response()?.errorBody()?.string()
@@ -79,7 +90,10 @@ class UserRepository private constructor(
             emit(Result.Success(successResponse))
         } catch (e: HttpException) {
             val errorBody = e.response()?.errorBody()?.string()
-            val errorResponse = Gson().fromJson(errorBody, UploadResponse::class.java)
+            val errorResponse = Gson().fromJson(
+                errorBody, UploadResponse
+                ::class.java
+            )
             emit(errorResponse.message?.let { Result.Error(it) })
         }
     }
@@ -95,5 +109,4 @@ class UserRepository private constructor(
                 instance ?: UserRepository(apiService, userPreference)
             }.also { instance = it }
     }
-
 }

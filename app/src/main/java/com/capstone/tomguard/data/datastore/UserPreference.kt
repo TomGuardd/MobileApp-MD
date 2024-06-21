@@ -11,24 +11,25 @@ import com.capstone.tomguard.data.model.UserModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
+
 val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "session")
 
-class UserPreference private constructor(private val dataStore: DataStore<Preferences>) {
+class UserPreference(private val dataStore: DataStore<Preferences>) {
 
     suspend fun saveSession(user: UserModel) {
         dataStore.edit { preferences ->
             preferences[EMAIL_KEY] = user.email
             preferences[TOKEN_KEY] = user.token
-            preferences[IS_LOGIN_KEY] = true
+            preferences[IS_LOGIN_KEY] = user.isLogin
         }
     }
 
     fun getSession(): Flow<UserModel> {
         return dataStore.data.map { preferences ->
             UserModel(
-                preferences[EMAIL_KEY] ?: "",
-                preferences[TOKEN_KEY] ?: "",
-                preferences[IS_LOGIN_KEY] ?: false
+                email = preferences[EMAIL_KEY] ?: "",
+                token = preferences[TOKEN_KEY] ?: "",
+                isLogin = preferences[IS_LOGIN_KEY] ?: false
             )
         }
     }
@@ -71,15 +72,15 @@ class SettingPreference private constructor(private val dataStore: DataStore<Pre
         }
     }
 
-    fun getLocaleSetting(): Flow<String>{
-        return dataStore.data.map {
-            it[LOCALE_KEY] ?: "en"
+    fun getLocaleSetting(): Flow<String> {
+        return dataStore.data.map { preferences ->
+            preferences[LOCALE_KEY] ?: "en"
         }
     }
 
-    suspend fun saveLocaleSetting(localeName: String){
-        dataStore.edit {
-            it[LOCALE_KEY] = localeName
+    suspend fun saveLocaleSetting(localeName: String) {
+        dataStore.edit { preferences ->
+            preferences[LOCALE_KEY] = localeName
         }
     }
 
@@ -87,7 +88,7 @@ class SettingPreference private constructor(private val dataStore: DataStore<Pre
         @Volatile
         private var INSTANCE: SettingPreference? = null
 
-        private val THEME_SETTING = booleanPreferencesKey("theme_setting" )
+        private val THEME_SETTING = booleanPreferencesKey("theme_setting")
         private val LOCALE_KEY = stringPreferencesKey("locale_setting")
 
         fun getInstance(dataStore: DataStore<Preferences>): SettingPreference {

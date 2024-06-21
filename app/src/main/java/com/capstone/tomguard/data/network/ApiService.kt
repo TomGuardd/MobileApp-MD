@@ -3,6 +3,7 @@ package com.capstone.tomguard.data.network
 import com.capstone.tomguard.data.model.LoginResponse
 import com.capstone.tomguard.data.model.ProfileResponse
 import com.capstone.tomguard.data.model.UploadResponse
+import com.capstone.tomguard.data.model.UserResponse
 import okhttp3.MultipartBody
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
@@ -32,4 +33,12 @@ interface ApiService {
         @Header("Authorization") token: String,
         @Part file: MultipartBody.Part
     ): UploadResponse
+
+    @FormUrlEncoded
+    @POST("users/register")
+    suspend fun registerUser(
+        @Field("name") name: String,
+        @Field("email") email: String,
+        @Field("password") password: String,
+    ): UserResponse
 }

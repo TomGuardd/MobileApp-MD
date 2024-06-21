@@ -66,7 +66,9 @@
     <string name="blank_username">username</string>
     <string name="blank_email">email</string>
     <string name="language">Language</string>
-    <string name="title_welcome_page">Welcom to TomGuard</string>
+    <string name="title_welcome_page">Welcome to TomGuard</string>
+    <string name="success">success</string>
+    <string name="continue_login">continue to login</string>
     <string-array name="language_array">
         <item>English</item>
         <item>Indonesia</item>
