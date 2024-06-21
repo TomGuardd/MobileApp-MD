@@ -60,7 +60,18 @@ class DetailActivity : AppCompatActivity() {
 
             tvItemDate.text = formattedDate
 
-            tvItemRecomendation.text = detailHistory.disease.recommendations.toString()
+            // Joining recommendations with newline
+            tvItemRecomendation.text = detailHistory.disease.recommendations.joinToString("\n")
+
+            // Displaying the related article
+            val relatedArticle = detailHistory.disease.articles.firstOrNull()
+            if (relatedArticle != null) {
+                tvRelatedArticleContent.text = relatedArticle.content
+                tvRelatedArticleUrl.text = relatedArticle.url
+            } else {
+                tvRelatedArticleContent.text = getString(R.string.no_related_articles)
+                tvRelatedArticleUrl.text = ""
+            }
         }
     }
 }

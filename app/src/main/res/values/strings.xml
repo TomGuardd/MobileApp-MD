@@ -76,6 +76,7 @@
     <string name="dummy_article_content">Bacterial Spot of Pepper and Tomato</string>
     <string name="dummy_article_url">https://content.ces.ncsu.edu/bacterial-spot-of-pepper-and-tomato</string>
     <string name="predicted_date_label">Successfully predicted at</string>
+    <string name="no_related_articles">No related article</string>
     />
     <string-array name="language_array">
         <item>English</item>

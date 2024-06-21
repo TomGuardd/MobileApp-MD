@@ -74,6 +74,8 @@
     <string name="related_article_label">Artikel Terkait :</string>
     <string name="dummy_article_content">Bacterial Spot of Pepper and Tomato</string>
     <string name="dummy_article_url">https://content.ces.ncsu.edu/bacterial-spot-of-pepper-and-tomato</string>
+    <string name="predicted_date_label">Sukses diprediksi pada</string>
+    <string name="no_related_articles">Tidak ada artikel terkait</string>
     <string-array name="language_array">
         <item>Inggris</item>
         <item>Indonesia</item>
